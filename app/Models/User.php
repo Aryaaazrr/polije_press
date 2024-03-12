@@ -51,12 +51,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    protected $attributes = [
-        'id_role' => 2,
-    ];
-
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'id_role');
     }
 }

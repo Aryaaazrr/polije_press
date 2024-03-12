@@ -9,6 +9,7 @@ class Role extends Model
 {
     use HasFactory;
     protected $table = 'role';
+    protected $primaryKey = 'id_role';
     protected $guarded = [];
     protected $casts = [
         'created_at' => 'datetime',
@@ -16,6 +17,6 @@ class Role extends Model
     ];
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class, 'id_users');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EditorAkuisisiController;
 use App\Http\Controllers\EditorNaskahController;
 use App\Http\Controllers\PengelolaController;
+use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PenulisController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
@@ -54,7 +55,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::group(['middleware' => 'admin'], function () {
         Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-        Route::get('admin/pengguna', [AdminController::class, 'pengguna'])->name('admin.pengguna');
+        Route::get('admin/naskah', [AdminController::class, 'naskah'])->name('admin.naskah');
+
+        Route::get('admin/pengguna', [PenggunaController::class, 'index'])->name('admin.pengguna');
+        Route::get('admin/pengguna/add', [PenggunaController::class, 'create'])->name('admin.pengguna.create');
+        Route::post('admin/pengguna/add', [PenggunaController::class, 'store'])->name('admin.pengguna.store');
+        Route::get('admin/pengguna/edit/{id}', [PenggunaController::class, 'edit'])->name('admin.pengguna.edit');
+        Route::put('admin/pengguna/edit/{id}', [PenggunaController::class, 'update'])->name('admin.pengguna.update');
+        Route::get('admin/pengguna/{id}', [PenggunaController::class, 'destroy'])->name('admin.pengguna.destroy');
+
+        Route::get('admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     });
 
     Route::group(['middleware' => 'penulis'], function () {
