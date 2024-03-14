@@ -38,21 +38,21 @@
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="floatingName" placeholder="Your Name"
-                                        name="name" required>
+                                        name="name" value="{{ old('name') }}" required>
                                     <label for="floatingName">Nama Lengkap</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="floatingUsername" placeholder="Your Name"
-                                        name="username" required>
+                                        name="username" value="{{ old('username') }}" required>
                                     <label for="floatingUsername">Username</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="email" class="form-control" id="floatingEmail" placeholder="Your Email"
-                                        name="email" required>
+                                        name="email" value="{{ old('email') }}" required>
                                     <label for="floatingEmail">Email</label>
                                 </div>
                             </div>
