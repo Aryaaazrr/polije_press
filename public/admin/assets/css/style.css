@@ -388,10 +388,7 @@ h6 {
 }
 
 .header .toggle-sidebar-btn {
-    font-size: 32px;
-    padding-left: 10px;
-    cursor: pointer;
-    color: #012970;
+    display: none;
 }
 
 .header .search-bar {
@@ -639,6 +636,14 @@ h6 {
 @media (max-width: 1199px) {
     .toggle-sidebar .sidebar {
         left: 0;
+    }
+
+    .header .toggle-sidebar-btn {
+        font-size: 32px;
+        padding-left: 10px;
+        cursor: pointer;
+        color: #012970;
+        display: block;
     }
 }
 
