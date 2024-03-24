@@ -5,6 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EditorAkuisisiController;
 use App\Http\Controllers\EditorNaskahController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KelolaEditorController;
+use App\Http\Controllers\NaskahController;
 use App\Http\Controllers\PengelolaController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PenulisController;
@@ -55,9 +58,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::group(['middleware' => 'admin'], function () {
         Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-        Route::get('admin/naskah', [AdminController::class, 'naskah'])->name('admin.naskah');
+
+        Route::get('admin/naskah', [NaskahController::class, 'index'])->name('admin.naskah');
+        Route::get('admin/naskah/data', [NaskahController::class, 'data'])->name('admin.naskah.data');
+        Route::get('admin/naskah/datauser', [NaskahController::class, 'dataUser'])->name('admin.naskah.datauser');
+        Route::get('admin/naskah/add', [NaskahController::class, 'create'])->name('admin.naskah.create');
+        Route::post('admin/naskah/add', [NaskahController::class, 'store'])->name('admin.naskah.store');
+        Route::get('admin/naskah/edit/{id}', [NaskahController::class, 'edit'])->name('admin.naskah.edit');
+        Route::put('admin/naskah/edit/{id}', [NaskahController::class, 'update'])->name('admin.naskah.update');
+
+        Route::get('admin/kategori', [KategoriController::class, 'index'])->name('admin.kategori');
+        Route::get('admin/kategori/data', [KategoriController::class, 'data'])->name('admin.kategori.data');
+        Route::post('admin/kategori/add', [KategoriController::class, 'store'])->name('admin.kategori.store');
+        Route::put('admin/kategori/{id}', [KategoriController::class, 'update'])->name('admin.kategori.update');
+        Route::get('admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('admin.kategori.destroy');
+
+        Route::get('admin/editor', [KelolaEditorController::class, 'index'])->name('admin.editor');
+        Route::get('admin/editor/data', [KelolaEditorController::class, 'data'])->name('admin.editor.data');
 
         Route::get('admin/pengguna', [PenggunaController::class, 'index'])->name('admin.pengguna');
+        Route::get('admin/pengguna/data', [PenggunaController::class, 'data'])->name('admin.pengguna.data');
         Route::get('admin/pengguna/add', [PenggunaController::class, 'create'])->name('admin.pengguna.create');
         Route::post('admin/pengguna/add', [PenggunaController::class, 'store'])->name('admin.pengguna.store');
         Route::get('admin/pengguna/edit/{id}', [PenggunaController::class, 'edit'])->name('admin.pengguna.edit');

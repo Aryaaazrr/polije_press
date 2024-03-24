@@ -3,52 +3,75 @@
      <ul class="sidebar-nav" id="sidebar-nav">
 
          <li class="nav-item">
-             <a class="nav-link " href="/">
+             <a class="@if (request()->is('admin/dashboard')) nav-link @else nav-link collapsed @endif"
+                 href="{{ route('admin.dashboard') }}">
                  <i class="bi bi-grid"></i>
                  <span>Dashboard</span>
              </a>
          </li>
-
          <li class="nav-item">
-             <a class="nav-link collapsed" data-bs-target="#naskah" data-bs-toggle="collapse" href="#">
+             <a class="@if (request()->is('admin/naskah') ||
+                     Str::contains(request()->url(), 'admin/naskah/add') ||
+                     Str::contains(request()->url(), 'admin/naskah/edit/')) nav-link @else nav-link collapsed @endif"
+                 href="{{ route('admin.naskah') }}">
+                 <i class="bi bi-book"></i>
+                 <span>Naskah</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="@if (request()->is('admin/kategori')) nav-link @else nav-link collapsed @endif"
+                 href="{{ route('admin.kategori') }}">
+                 <i class="bi bi-collection"></i>
+                 <span>Kategori</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="@if (request()->is('admin/editor')) nav-link @else nav-link collapsed @endif"
+                 href="{{ route('admin.editor') }}">
+                 <i class="bi bi-clipboard-check"></i>
+                 <span>Tugas Editor</span>
+             </a>
+         </li>
+
+         {{-- <li class="nav-item">
+             <a class="@if (request()->is('admin/naskah') || Str::contains(request()->url(), 'admin/kategori') || Str::contains(request()->url(), 'admin/naskah/add')) nav-link @else nav-link collapsed @endif"
+                 data-bs-target="#naskah" data-bs-toggle="collapse" href="">
                  <i class="bi bi-menu-button-wide"></i><span>Naskah</span><i class="bi bi-chevron-down ms-auto"></i>
              </a>
              <ul id="naskah" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                  <li>
-                     <a href="">
+                     <a href="{{ route('admin.naskah') }}">
                          <i class="bi bi-circle"></i><span>Monitoring Naskah</span>
                      </a>
                  </li>
              </ul>
-         </li>
-
-         <li class="nav-item">
-             <a class="nav-link collapsed" data-bs-target="#manage" data-bs-toggle="collapse" href="#">
-                 <i class="bi bi-menu-button-wide"></i><span>Kelola Editor</span><i
-                     class="bi bi-chevron-down ms-auto"></i>
-             </a>
-             <ul id="manage" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+             <ul id="naskah" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                  <li>
-                     <a href="">
-                         <i class="bi bi-circle"></i><span>Tugas Editor</span>
+                     <a href="{{ route('admin.kategori') }}">
+                         <i class="bi bi-circle"></i><span>Kategori</span>
                      </a>
                  </li>
              </ul>
-         </li>
+         </li> --}}
 
          <li class="nav-item">
-             <a class="nav-link collapsed" href="">
-                 <i class="bi bi-grid"></i>
+             <a class="@if (request()->routeIs('admin.pengguna') ||
+                     Str::contains(request()->url(), 'admin/pengguna/add') ||
+                     Str::contains(request()->url(), 'admin/pengguna/edit')) nav-link @else nav-link collapsed @endif"
+                 href="{{ route('admin.pengguna') }}">
+                 <i class="bi bi-people"></i>
                  <span>Pengguna</span>
              </a>
          </li>
 
-         <li class="nav-heading">Pages</li>
+
+         <li class="nav-heading">Pengaturan</li>
 
          <li class="nav-item">
-             <a class="nav-link collapsed" href="">
+             <a class="@if (request()->is('admin/profile')) nav-link @else nav-link collapsed @endif"
+                 href="{{ route('admin.profile') }}">
                  <i class="bi bi-person"></i>
-                 <span>Profile</span>
+                 <span>Profil</span>
              </a>
          </li>
 
