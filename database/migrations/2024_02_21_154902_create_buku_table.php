@@ -13,9 +13,15 @@ return new class extends Migration
     {
         Schema::create('buku', function (Blueprint $table) {
             $table->id('id_buku');
-            $table->string('judul_buku');
-            $table->string('kategori');
-            $table->string('tahun');
+            $table->string('judul')->nullable();
+            $table->string('subjudul')->nullable();
+            $table->text('abstrak')->nullable();
+            $table->string('cover')->nullable();
+            $table->string('file')->nullable();
+            $table->string('seri')->nullable();
+            $table->enum('status', ['Penyerahan', 'Revisi', 'Ditolak', 'Diterima'])->nullable();
+            $table->timestamp('publish')->nullable();
+            $table->timestamps();
         });
     }
 
