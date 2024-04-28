@@ -24,20 +24,19 @@
                                 <a href="{{ route('admin.pengguna.create') }}" class="btn btn-success">Tambah</a>
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered display" id="myTable">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Name</th>
-                                        <th class="text-center">Username</th>
-                                        <th class="text-center">Email</th>
-                                        <th class="text-center">Role</th>
-                                        <th class="text-center">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($users as $user)
+                        <table class="table table-hover table-bordered" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Username</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Role</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {{-- @foreach ($users as $user)
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td class="text-center">{{ $user->name }}</td>
@@ -75,10 +74,9 @@
                                                     class="btn btn-danger"><i class="bi bi-trash"></i></a>
                                             </td>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    @endforeach --}}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -95,7 +93,87 @@
 
         <script>
             $(document).ready(function() {
-                $('#myTable').DataTable();
+                $('#myTable').DataTable({
+                    serverSide: true,
+                    processing: true,
+                    ajax: '{{ route('admin.pengguna.data') }}',
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex'
+                        },
+                        {
+                            data: 'name',
+                            name: 'name'
+                        },
+                        {
+                            data: 'username',
+                            name: 'username'
+                        },
+                        {
+                            data: 'email',
+                            name: 'email'
+                        },
+                        {
+                            data: 'role.nama_role',
+                            name: 'role.nama_role'
+                        },
+                        {
+                            data: null,
+                            render: function(data) {
+                                var createdAt = new Date(data.created_at);
+                                var day = createdAt.getDate().toString().padStart(2,
+                                    '0');
+                                var month = (createdAt.getMonth() + 1).toString().padStart(2,
+                                    '0');
+                                var year = createdAt.getFullYear();
+                                var hours = createdAt.getHours().toString().padStart(2,
+                                    '0');
+                                var minutes = createdAt.getMinutes().toString().padStart(2,
+                                    '0');
+                                var formattedCreatedAt = day + '-' + month + '-' + year + ' ' + hours +
+                                    ':' + minutes;
+                                return '<div class="row justify-content-center">' +
+                                    '<div class="col-auto">' +
+                                    '<button type="button" class="btn btn-info m-1" data-bs-toggle="modal" data-bs-target="#basicModal' +
+                                    data.id_users +
+                                    '"><i class="bi bi-exclamation-circle"></i></button>' +
+                                    '<a href="{{ route('admin.pengguna.edit', '') }}/' + data.id_users +
+                                    '" class="btn btn-warning m-1"><i class="bi bi-pencil-square"></i></a>' +
+                                    '<a href="{{ route('admin.pengguna.destroy', '') }}/' + data
+                                    .id_users +
+                                    '" class="btn btn-danger m-1"><i class="bi bi-trash"></i></a>' +
+                                    '<div class="modal fade" id="basicModal' + data.id_users +
+                                    '" tabindex="-1">' +
+                                    '<div class="modal-dialog">' +
+                                    '<div class="modal-content">' +
+                                    '<div class="modal-header">' +
+                                    '<h5 class="modal-title">' + data.username + '</h5>' +
+                                    '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' +
+                                    '</div>' +
+                                    '<div class="modal-body text-start">' +
+                                    '<div>Nama : ' + data.name + '</div>' +
+                                    '<div>Username : ' + data.username + '</div>' +
+                                    '<div>Email : ' + data.email + '</div>' +
+                                    '<div>Tanggal Akun Dibuat : ' + formattedCreatedAt + '</div>' +
+                                    '</div>' +
+                                    '<div class="modal-footer">' +
+                                    '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                            }
+                        }
+                    ],
+                    rowCallback: function(row, data, index) {
+                        var dt = this.api();
+                        $(row).attr('data-id', data.id);
+                        $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                    }
+                });
+
                 $('.datatable-input').on('input', function() {
                     var searchText = $(this).val().toLowerCase();
 

@@ -9,6 +9,12 @@ class EditorAkuisisiController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function dashboard()
+    {
+        return view('pages.editorAkuisisi.dashboard.index');
+    }
+
     public function index()
     {
         //

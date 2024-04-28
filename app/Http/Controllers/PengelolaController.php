@@ -9,6 +9,11 @@ class PengelolaController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function dashboard()
+    {
+        return view('pages.pengelola.dashboard.index');
+    }
+
     public function index()
     {
         //

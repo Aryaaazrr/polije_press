@@ -44,15 +44,22 @@ class AuthController extends Controller
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'email_verified_at' => Carbon::now(),
+                'id_role' => 2
             ]);
 
-            event(new Registered($user));
+            // event(new Registered($user));
 
-            Auth::login($user);
+            // Auth::login($user);
 
             DB::commit();
 
-            return redirect('/dashboard');
+            return redirect('/')->with('msg', '<div class="alert alert-success alert-dismissible text-white" role="alert">
+            <span class="text-sm">Daftar akun berhasil.</span>
+            <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>');
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -75,6 +82,7 @@ class AuthController extends Controller
             $user = User::updateOrCreate([
                 'google_id' => $googleUser->id,
             ], [
+                'name' => $googleUser->name,
                 'username' => $googleUser->name,
                 'email' => $googleUser->email,
                 'password' => Hash::make('12345678'),
@@ -106,7 +114,7 @@ class AuthController extends Controller
 
         $registeredUser = User::where('email', $request->email)->first();
 
-        if (!$registeredUser) {
+        if ($registeredUser) {
 
             if (Auth::attempt($credentials)) {
                 if (Auth::user()->email_verified_at == '') {
@@ -135,28 +143,38 @@ class AuthController extends Controller
                 } else {
                     return redirect('pengelola/dashboard');
                 }
+            } else {
+                return back()->withInput()->with(
+                    'msg',
+                    '<div class="alert alert-danger alert-dismissible text-white" role="alert">
+        <span class="text-sm">Email atau password salah.</span>
+        <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>'
+                );
             }
-            return back()->withInput()->with('msg', '<div class="alert alert-danger alert-dismissible text-white" role="alert">
-            <span class="text-sm">Akun Tidak Ditemukan. Silahkan Daftar akun terlebih dahulu.</span>
-            <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            </div>');
         }
+        return back()->withInput()->with('msg', '<div class="alert alert-danger alert-dismissible text-white" role="alert">
+        <span class="text-sm">Akun Tidak Ditemukan. Silahkan Daftar akun terlebih dahulu.</span>
+        <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>');
 
-        Auth::login($registeredUser);
+        // Auth::login($registeredUser);
 
-        if (Auth::user()->id_role == '1') {
-            return redirect('admin/dashboard');
-        } elseif (Auth::user()->id_role == '2') {
-            return redirect('dashboard');
-        } elseif (Auth::user()->id_role == '3') {
-            return redirect('editor-naskah/dashboard');
-        } elseif (Auth::user()->id_role == '4') {
-            return redirect('editor-akuisisi/dashboard');
-        } else {
-            return redirect('pengelola/dashboard');
-        }
+        // if (Auth::user()->id_role == '1') {
+        //     return redirect('admin/dashboard');
+        // } elseif (Auth::user()->id_role == '2') {
+        //     return redirect('dashboard');
+        // } elseif (Auth::user()->id_role == '3') {
+        //     return redirect('editor-naskah/dashboard');
+        // } elseif (Auth::user()->id_role == '4') {
+        //     return redirect('editor-akuisisi/dashboard');
+        // } else {
+        //     return redirect('pengelola/dashboard');
+        // }
     }
 
     public function verify(Request $request)

@@ -51,8 +51,36 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    protected $attributes = [
+        'id_role' => 2,
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->email_verified_at = now();
+        });
+    }
+
+    public function buku()
+    {
+        return $this->hasMany(Buku::class, 'id_users', 'id_users');
+    }
+
     public function role()
     {
-        return $this->belongsTo(Role::class, 'id_role');
+        return $this->belongsTo(Role::class, 'id_role', 'id_role');
+    }
+
+    public function history()
+    {
+        return $this->hasMany(History::class, 'id_users', 'id_users');
+    }
+
+    public function contributor()
+    {
+        return $this->hasMany(DetailContributorsBuku::class, 'id_users', 'id_users');
     }
 }

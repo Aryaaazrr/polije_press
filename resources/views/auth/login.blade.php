@@ -25,14 +25,6 @@
                                     <label class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" required>
                                 </div>
-                                <div class="form-check form-switch d-flex align-items-center ">
-                                    {{-- <input class="form-check-input mt-0" type="checkbox" id="rememberMe" name="remember"
-                                        checked>
-                                    <label class="form-check-label mb-0 ms-2" for="rememberMe">Remember me</label> --}}
-                                    {{-- <a href="{{ route('google-login') }}" class="text-end text-sm w-100">
-                                        Forgot Password? --}}
-                                    </a>
-                                </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn bg-gradient-info w-100 my-4 mb-2">Sign In</button>
                                 </div>

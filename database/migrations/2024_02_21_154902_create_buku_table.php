@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('cover')->nullable();
             $table->string('file')->nullable();
             $table->string('seri')->nullable();
-            $table->enum('status', ['Penyerahan', 'Revisi', 'Ditolak', 'Diterima'])->nullable();
+            $table->unsignedBigInteger('id_users');
+            $table->foreign('id_users')->references('id_users')->on('users');
+            $table->enum('status', ['Penyerahan', 'Sedang Direview', 'Revisi', 'Ditolak', 'Diterima'])->nullable();
             $table->timestamp('publish')->nullable();
             $table->timestamps();
         });

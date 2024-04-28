@@ -67,7 +67,7 @@ class Kernel extends HttpKernel
         'only_sign_in' => \App\Http\Middleware\Only_SignIn::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'penulis' => \App\Http\Middleware\Penulis::class,
-        'editor.naskah' => \App\Http\Middleware\EditorAkuisisi::class,
+        'editor.naskah' => \App\Http\Middleware\EditorNaskah::class,
         'editor.akuisisi' => \App\Http\Middleware\EditorAkuisisi::class,
         'pengelola' => \App\Http\Middleware\Pengelola::class,
     ];

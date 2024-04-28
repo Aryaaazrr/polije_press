@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class PenggunaController extends Controller
 {
@@ -19,6 +20,17 @@ class PenggunaController extends Controller
     {
         $users = User::where('id_role', '!=', '1')->with('role')->get();
         return view('pages.admin.pengguna.index', compact('users'));
+    }
+
+    public function data()
+    {
+        $users = User::where('id_role', '!=', '1')->with('role')->get();
+
+        return DataTables::of($users)
+            ->addColumn('DT_RowIndex', function ($user) {
+                return $user->id_users; // Sesuaikan dengan kolom yang berisi id
+            })
+            ->toJson();
     }
 
     /**
@@ -119,6 +131,6 @@ class PenggunaController extends Controller
         $users = User::where('id_users', $id)->first();
         $users->delete();
 
-        return redirect()->back('admin.pengguna')->with('success', 'Pengguna berhasil dihapus');
+        return redirect()->route('admin.pengguna')->with('success', 'Pengguna berhasil dihapus');
     }
 }

@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('history', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_users');
-            $table->foreign('id_users')->references('id_users')->on('users');
+        Schema::create('history_buku', function (Blueprint $table) {
             $table->unsignedBigInteger('id_buku');
             $table->foreign('id_buku')->references('id_buku')->on('buku');
-            $table->string('keterangan')->nullable();
+            $table->unsignedBigInteger('id_users');
+            $table->foreign('id_users')->references('id_users')->on('users');
+            $table->string('file_revisi')->nullable();
+            $table->string('keterangan');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mengirim');
+        Schema::dropIfExists('history_buku');
     }
 };
