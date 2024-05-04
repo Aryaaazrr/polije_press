@@ -117,10 +117,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('editor-naskah/tugas', [TugasEditorNaskahController::class, 'index'])->name('editor.naskah.tugas');
         Route::get('editor-naskah/tugas/data', [TugasEditorNaskahController::class, 'data'])->name('editor.naskah.data');
+        Route::post('editor-naskah/tugas/add', [TugasEditorNaskahController::class, 'store'])->name('editor.naskah.store');
         Route::get('editor-naskah/tugas/{id}', [TugasEditorNaskahController::class, 'edit'])->name('editor.naskah.edit');
         Route::put('editor-naskah/tugas/{id}', [TugasEditorNaskahController::class, 'update'])->name('editor.naskah.update');
 
         Route::get('editor-naskah/profile', [SettingController::class, 'index'])->name('editor.naskah.profile');
+        Route::put('editor-naskah/profile/{id}', [SettingController::class, 'update'])->name('editor.naskah.profile.update');
     });
 
     Route::group(['middleware' => 'editor.akuisisi'], function () {
@@ -128,10 +130,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('editor-akuisisi/tugas', [TugasEditorAkuisisiController::class, 'index'])->name('editor.akuisisi.tugas');
         Route::get('editor-akuisisi/tugas/data', [TugasEditorAkuisisiController::class, 'data'])->name('editor.akuisisi.data');
+        Route::post('editor-akuisisi/tugas/add', [TugasEditorAkuisisiController::class, 'store'])->name('editor.akuisisi.store');
         Route::get('editor-akuisisi/tugas/{id}', [TugasEditorAkuisisiController::class, 'edit'])->name('editor.akuisisi.edit');
         Route::put('editor-akuisisi/tugas/{id}', [TugasEditorAkuisisiController::class, 'update'])->name('editor.akuisisi.update');
 
         Route::get('editor-akuisisi/profile', [SettingController::class, 'index'])->name('editor.akuisisi.profile');
+        Route::put('editor-akuisisi/profile/{id}', [SettingController::class, 'update'])->name('editor.akuisisi.profile.update');
     });
 
     Route::group(['middleware' => 'pengelola'], function () {
@@ -152,5 +156,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('pengelola/editor/{id}', [KelolaEditorPengelolaController::class, 'update'])->name('pengelola.editor.update');
 
         Route::get('pengelola/profile', [SettingController::class, 'index'])->name('pengelola.profile');
+        Route::put('pengelola/profile/{id}', [SettingController::class, 'update'])->name('pengelola.profile.update');
     });
 });

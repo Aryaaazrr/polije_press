@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\History;
 use App\Models\Kategori;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +28,8 @@ class TugasEditorNaskahController extends Controller
 
         $data = Buku::whereHas('history', function ($query) use ($userId) {
             $query->where('id_users', $userId)
-                ->whereIn('status', ['Diterima']);
+                ->whereIn('status', ['Diterima'])
+                ->whereNull('publish');
         })->with(['users', 'history'])->get();
 
         $rowData = [];
@@ -43,6 +45,7 @@ class TugasEditorNaskahController extends Controller
                 'penulis' => $row->users->name ?? '-',
                 'subjudul' => $row->subjudul ?? '-',
                 'status' => $row->status ?? '-',
+                'tanggalTerbit' => $row->publish ?? '-',
                 'historyRows' => $historyRows,
             ];
         }
@@ -64,7 +67,29 @@ class TugasEditorNaskahController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cek = Buku::find($request->id_buku);
+
+        if (!$cek) {
+            return back()->withErrors(['error' => 'Kesalahan sistem coba kembali.']);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'komentar' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $naskah = new History();
+        $naskah->id_users = Auth::id();
+        $naskah->id_buku = $request->id_buku;
+        $naskah->keterangan = Auth::user()->name . " Memberi komentar " . $request->komentar;
+        $naskah->save();
+
+        return back()->with(['success' => 'Berhasil memberi komentar.']);
     }
 
     /**
@@ -122,43 +147,22 @@ class TugasEditorNaskahController extends Controller
             return redirect()->route('editor.naskah.tugas')->with('error', 'Kesalahan coba kembali.');
         }
 
-        if ($request->status == 'Revisi') {
-            $validator = Validator::make($request->all(), [
-                'status' => 'required',
-                'keterangan' => 'required',
-            ]);
+        $validator = Validator::make($request->all(), [
+            'status' => 'required',
+        ]);
 
-            if ($validator->fails()) {
-                return back()
-                    ->with('error', 'Naskah tidak ditemukan.');
-            }
-
-            $buku->status = $request->status;
-            $buku->save();
-
-            $history = History::create([
-                'id_buku' => $id,
-                'id_users' => Auth::id(),
-                'keterangan' => Auth::user()->name . " memberi keputusan bahwa naskah perlu revisi dengan catatan " . $request->keterangan . ".",
-            ]);
-        } else {
-            $validator = Validator::make($request->all(), [
-                'status' => 'required',
-            ]);
-
-            if ($validator->fails()) {
-                return back()
-                    ->with('error', 'Naskah tidak ditemukan.');
-            }
-
-            $buku->status = $request->status;
-            $buku->save();
-            $history = History::create([
-                'id_buku' => $id,
-                'id_users' => Auth::id(),
-                'keterangan' => Auth::user()->name . " memberi keputusan bahwa naskah " . $request->status . ".",
-            ]);
+        if ($validator->fails()) {
+            return back()
+                ->with('error', 'Naskah tidak ditemukan.');
         }
+
+        $buku->publish = Carbon::now();
+        $buku->save();
+        $history = History::create([
+            'id_buku' => $id,
+            'id_users' => Auth::id(),
+            'keterangan' => Auth::user()->name . " memberi keputusan bahwa naskah " . $request->status . ".",
+        ]);
 
         return redirect()->route('editor.naskah.tugas')->with('success', 'Tugas Selesai.');
     }

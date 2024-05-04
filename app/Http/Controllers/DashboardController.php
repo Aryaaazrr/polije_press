@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,7 +13,14 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('pages.index');
+        $jumlahNaskahPenyerahan = Buku::where('status', '=', 'Penyerahan');
+        $jumlahNaskahDiterima = Buku::where('status', '=', 'Diterima');
+        $jumlahPenulis = User::where('id_role', '=', '2')->count();
+        $jumlahEditorAkuisisi = User::where('id_role', '=', '4')->count();
+        $jumlahEditorNaskah = User::where('id_role', '=', '3')->count();
+        $jumlahPengelola = User::where('id_role', '=', '5')->count();
+        
+        return view('pages.index', ['jumlahNaskahPenyerahan' => $jumlahNaskahPenyerahan, 'jumlahNaskahDiterima' => $jumlahNaskahDiterima, 'jumlahPenulis' => $jumlahPenulis, 'jumlahEditorAkuisisi' => $jumlahEditorAkuisisi, 'jumlahEditorNaskah' => $jumlahEditorNaskah, 'jumlahPengelola' => $jumlahPengelola]);
     }
 
     /**

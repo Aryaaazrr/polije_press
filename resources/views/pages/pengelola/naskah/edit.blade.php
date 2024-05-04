@@ -201,12 +201,11 @@
                             </div>
                             <div class="text-center">
                                 @if ($buku->status == 'Penyerahan')
-                                    <a href="{{ route('admin.editor') }}" class="btn btn-info submit-step">Tugaskan
+                                    <a href="{{ route('pengelola.editor') }}" class="btn btn-info submit-step">Tugaskan
                                         Editor</a>
                                 @else
-                                    <button type="submit" class="btn btn-success submit-step">Diterima</button>
-                                    <button type="submit" class="btn btn-warning submit-step">Revisi</button>
-                                    <button type="submit" class="btn btn-danger submit-step">Tolak</button>
+                                    <a href="{{ route('pengelola.naskah') }}"
+                                        class="btn btn-info submit-step">Kembali</a>
                                 @endif
                             </div>
                         </form>

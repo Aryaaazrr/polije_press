@@ -56,29 +56,6 @@
                                                         data-bs-toggle="modal" data-bs-target="#komentar">
                                                         Beri Komentar
                                                     </button>
-                                                <div class="modal fade" id="komentar" tabindex="-1">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Beri Komentar</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="form-floating mb-3">
-                                                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;"></textarea>
-                                                                    <label for="floatingTextarea">Komentar</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                                <button type="submit" class="btn btn-primary">Save
-                                                                    changes</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 </p>
                                             </div>
                                         </div>
@@ -163,8 +140,7 @@
                                         </select>
                                     @else
                                         @if ($buku->seri == 'Buku Pelajaran')
-                                            <select class="form-select" aria-label="Default select example"
-                                                name="seri">
+                                            <select class="form-select" aria-label="Default select example" name="seri">
                                                 <option value="">Pilih Seri (Optional)</option>
                                                 <option selected value="{{ $buku->seri }}">{{ $buku->seri }}
                                                 </option>
@@ -390,122 +366,169 @@
                                 </div>
                             </div>
                             <div class="text-center">
-                                @if ($buku->status == 'Penyerahan')
-                                    <a href="{{ route('naskah') }}" class="btn btn-primary submit-step">Kembali</a>
-                                @elseif ($buku->status == 'Diterima')
-                                    <a href="{{ route('naskah') }}" class="btn btn-primary submit-step">Kembali</a>
-                                @else
+                                @if ($buku->status == 'Revisi')
                                     <button type="submit" class="btn btn-success submit-step" id="simpan">Kirim
                                         Revisi</button>
+                                @else
+                                    <a href="{{ route('naskah') }}" class="btn btn-primary submit-step">Kembali</a>
                                 @endif
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="modal fade" id="komentar" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="row g-3 mt-0" action="{{ route('naskah.store') }}" id="stepForm" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title">Beri Komentar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="komen" value="komentar">
+                            <input type="hidden" name="id_buku" value="{{ $buku->id_buku }}">
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" name="komentar" placeholder="Leave a comment here" id="floatingTextarea"
+                                    style="height: 100px;"></textarea>
+                                <label for="floatingTextarea">Komentar</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Beri
+                                Komentar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
+        @if (session('success'))
             <script>
-                $(document).ready(function() {
-                    var table = $('#myTableModal').DataTable({
-                        serverSide: true,
-                        responsive: true,
-                        select: true,
-                        processing: true,
-                        ajax: '{{ route('naskah.datauser') }}',
-                        columns: [{
-                                data: 'name',
-                                name: 'name'
-                            },
-                            {
-                                data: 'email',
-                                name: 'email'
-                            },
-                            {
-                                data: 'role.nama_role',
-                                name: 'role.nama_role'
-                            },
-                            {
-                                data: null,
-                                render: function(data) {
-                                    return '<div class="row justify-content-center">' +
-                                        '<div class="col-auto">' +
-                                        '<input type="checkbox" class="form-check-input m-1" data-id="' +
-                                        data.id_users +
-                                        '">' +
-                                        '</div>';
-                                }
-                            }
-                        ]
-                    });
-
-                    $('#simpan').on('click', function() {
-                        var selectedData = [];
-
-                        $('#myTableModal input[type="checkbox"].form-check-input:checked').each(function() {
-                            var rowData = $(this).closest('tr').find('td').map(function() {
-                                return $(this).text();
-                            }).get();
-
-                            var exists = false;
-                            $('#myTable tbody tr').each(function() {
-                                var existingName = $(this).find('td:eq(0)').text();
-                                var existingEmail = $(this).find('td:eq(1)').text();
-                                var existingRole = $(this).find('td:eq(2)').text();
-                                if (existingName === rowData[0] && existingEmail === rowData[1] &&
-                                    existingRole === rowData[2]) {
-                                    exists = true;
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Oops...",
-                                        text: "Pengguna telah dipilih!",
-                                    });
-                                    return false;
-                                }
-                            });
-
-                            if (!exists) {
-                                selectedData.push({
-                                    id_users: $(this).data('id'),
-                                    name: rowData[0],
-                                    email: rowData[1],
-                                    role: rowData[2]
-                                });
-                            }
-
-                            $(this).closest('tr').remove();
-                        });
-
-                        selectedData.forEach(function(data) {
-                            $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.email +
-                                '</td><td>' + data.role +
-                                '</td><td><button type="button" class="btn btn-danger btn-delete">Hapus</button></td></tr>'
-                            );
-                        });
-
-                        var idKontributorArray = selectedData.map(function(data) {
-                            return data.id_users;
-                        });
-                        $('#id_kontributor').val(JSON.stringify(idKontributorArray));
-                    });
-
-                    $(document).on('click', '.btn-delete', function() {
-                        $(this).closest('tr').remove();
-                        table.ajax.reload();
-                    });
-
-                    $('.datatable-input').on('input', function() {
-                        var searchText = $(this).val().toLowerCase();
-
-                        $('.table tr').each(function() {
-                            var rowData = $(this).text().toLowerCase();
-                            if (rowData.indexOf(searchText) === -1) {
-                                $(this).hide();
-                            } else {
-                                $(this).show();
-                            }
-                        });
-                    });
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: '{{ session('success') }}'
                 });
             </script>
+        @endif
+        @if ($errors->any())
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oopss...',
+                    text: '{{ $errors->first() }}'
+                });
+            </script>
+        @endif
+
+        <script>
+            $(document).ready(function() {
+                var table = $('#myTableModal').DataTable({
+                    serverSide: true,
+                    responsive: true,
+                    select: true,
+                    processing: true,
+                    ajax: '{{ route('naskah.datauser') }}',
+                    columns: [{
+                            data: 'name',
+                            name: 'name'
+                        },
+                        {
+                            data: 'email',
+                            name: 'email'
+                        },
+                        {
+                            data: 'role.nama_role',
+                            name: 'role.nama_role'
+                        },
+                        {
+                            data: null,
+                            render: function(data) {
+                                return '<div class="row justify-content-center">' +
+                                    '<div class="col-auto">' +
+                                    '<input type="checkbox" class="form-check-input m-1" data-id="' +
+                                    data.id_users +
+                                    '">' +
+                                    '</div>';
+                            }
+                        }
+                    ]
+                });
+
+                $('#simpan').on('click', function() {
+                    var selectedData = [];
+
+                    $('#myTableModal input[type="checkbox"].form-check-input:checked').each(function() {
+                        var rowData = $(this).closest('tr').find('td').map(function() {
+                            return $(this).text();
+                        }).get();
+
+                        var exists = false;
+                        $('#myTable tbody tr').each(function() {
+                            var existingName = $(this).find('td:eq(0)').text();
+                            var existingEmail = $(this).find('td:eq(1)').text();
+                            var existingRole = $(this).find('td:eq(2)').text();
+                            if (existingName === rowData[0] && existingEmail === rowData[1] &&
+                                existingRole === rowData[2]) {
+                                exists = true;
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "Pengguna telah dipilih!",
+                                });
+                                return false;
+                            }
+                        });
+
+                        if (!exists) {
+                            selectedData.push({
+                                id_users: $(this).data('id'),
+                                name: rowData[0],
+                                email: rowData[1],
+                                role: rowData[2]
+                            });
+                        }
+
+                        $(this).closest('tr').remove();
+                    });
+
+                    selectedData.forEach(function(data) {
+                        $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.email +
+                            '</td><td>' + data.role +
+                            '</td><td><button type="button" class="btn btn-danger btn-delete">Hapus</button></td></tr>'
+                        );
+                    });
+
+                    var idKontributorArray = selectedData.map(function(data) {
+                        return data.id_users;
+                    });
+                    $('#id_kontributor').val(JSON.stringify(idKontributorArray));
+                });
+
+                $(document).on('click', '.btn-delete', function() {
+                    $(this).closest('tr').remove();
+                    table.ajax.reload();
+                });
+
+                $('.datatable-input').on('input', function() {
+                    var searchText = $(this).val().toLowerCase();
+
+                    $('.table tr').each(function() {
+                        var rowData = $(this).text().toLowerCase();
+                        if (rowData.indexOf(searchText) === -1) {
+                            $(this).hide();
+                        } else {
+                            $(this).show();
+                        }
+                    });
+                });
+            });
+        </script>
     </section>
 @endsection

@@ -21,7 +21,7 @@
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title">Monitoring Naskah</h5>
                             <div class="h-10 d-flex align-items-center">
-                                <a href="{{ route('pengelola.naskah.create') }}" class="btn btn-success">Upload Naskah</a>
+                                {{-- <a href="{{ route('pengelola.naskah.create') }}" class="btn btn-success">Upload Naskah</a> --}}
                             </div>
                         </div>
                         <div class="tab-content pt-2" id="borderedTabJustifiedContent">
@@ -36,6 +36,7 @@
                                                 <th class="text-center">Judul</th>
                                                 <th class="text-center">Subjudul</th>
                                                 <th class="text-center">Status</th>
+                                                <th class="text-center">Tanggal Terbit</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
@@ -87,6 +88,10 @@
                             name: 'status'
                         },
                         {
+                            data: 'tanggalTerbit',
+                            name: 'tanggalTerbit'
+                        },
+                        {
                             data: null,
                             render: function(data) {
                                 var historyRows = '';
@@ -133,7 +138,8 @@
                                     '<button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#basicModal' +
                                     data.id_buku +
                                     '"><i class="bi bi-clipboard-data"></i></button>' +
-                                    '<a href="{{ route('pengelola.naskah.edit', '') }}/' + data.id_buku +
+                                    '<a href="{{ route('pengelola.naskah.edit', '') }}/' + data
+                                    .id_buku +
                                     '" class="btn btn-info m-1"><i class="bi bi-exclamation-circle"></i></a>' +
                                     '<div class="modal fade" id="basicModal' + data.id_buku +
                                     '" tabindex="-1">' +

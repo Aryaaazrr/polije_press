@@ -64,7 +64,7 @@ class KelolaEditorController extends Controller
         }
 
         if ($cekroleeditor->role->nama_role === 'Editor Naskah') {
-            $query->where('status', 'Diterima');
+            $query->where('status', 'Diterima')->where('publish', null);
             $data = $query->with(['users', 'history'])->get();
 
             $rowData = [];

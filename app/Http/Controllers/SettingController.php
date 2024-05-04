@@ -111,11 +111,11 @@ class SettingController extends Controller
             } elseif (Auth::user()->id_role == '2') {
                 return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui.');
             } elseif (Auth::user()->id_role == '3') {
-                return redirect('editor-naskah/dashboard');
+                return redirect()->route('editor.naskah.profile')->with('success', 'Profil berhasil diperbarui.');
             } elseif (Auth::user()->id_role == '4') {
-                return redirect('editor-akuisisi/dashboard');
+                return redirect()->route('editor.akuisisi.profile')->with('success', 'Profil berhasil diperbarui.');
             } else {
-                return redirect('pengelola/dashboard');
+                return redirect()->route('pengelola.profile')->with('success', 'Profil berhasil diperbarui.');
             }
         }
     }

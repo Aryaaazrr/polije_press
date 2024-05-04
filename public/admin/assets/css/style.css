@@ -826,24 +826,41 @@ h6 {
     flex-grow: 0;
 }
 
-.dashboard .sales-card .card-icon {
+.dashboard .naskah-penyerahan-card .card-icon {
     color: #1a73e8;
     background: #f6f6fe;
 }
 
-.dashboard .revenue-card .card-icon {
+.dashboard .naskah-diterima-card .card-icon {
     color: #2eca6a;
     background: #e0f8e9;
 }
 
-.dashboard .customers-card .card-icon {
+.dashboard .penulis-card .card-icon {
     color: #ff771d;
     background: #ffecdf;
+}
+
+.dashboard .akuisisi-card .card-icon {
+    color: #ff1dec;
+    background: #fadfff;
+}
+
+.dashboard .naskah-card .card-icon {
+    color: #d6ff1d;
+    background: #fffddf;
+}
+
+.dashboard .pengelola-card .card-icon {
+    color: #ff1d1d;
+    background: #ffdfdf;
 }
 
 /* Activity */
 .dashboard .activity {
     font-size: 14px;
+    max-height: 750px; /* Atur tinggi maksimum sesuai kebutuhan */
+    overflow-y: auto;
 }
 
 .dashboard .activity .activity-item .activite-label {

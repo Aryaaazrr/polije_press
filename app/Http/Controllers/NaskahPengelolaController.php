@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\DetailContributorsBuku;
+use App\Models\DetailKategoriBuku;
 use App\Models\History;
 use App\Models\Kategori;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class NaskahPengelolaController extends Controller
@@ -36,6 +40,7 @@ class NaskahPengelolaController extends Controller
                 'judul' => $row->judul ?? '-',
                 'subjudul' => $row->subjudul ?? '-',
                 'status' => $row->status ?? '-',
+                'tanggalTerbit' => $row->publish ?? '-',
                 'historyRows' => $historyRows,
             ];
         }
@@ -67,7 +72,29 @@ class NaskahPengelolaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cek = Buku::find($request->id_buku);
+
+        if (!$cek) {
+            return back()->withErrors(['error' => 'Kesalahan sistem coba kembali.']);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'komentar' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $naskah = new History();
+        $naskah->id_users = Auth::id();
+        $naskah->id_buku = $request->id_buku;
+        $naskah->keterangan = Auth::user()->name . " Memberi komentar " . $request->komentar;
+        $naskah->save();
+
+        return back()->with(['success' => 'Berhasil memberi komentar.']);
     }
 
     /**

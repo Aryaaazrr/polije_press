@@ -69,29 +69,6 @@
                                                         data-bs-toggle="modal" data-bs-target="#komentar">
                                                         Beri Komentar
                                                     </button>
-                                                <div class="modal fade" id="komentar" tabindex="-1">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Beri Komentar</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="form-floating mb-3">
-                                                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;"></textarea>
-                                                                    <label for="floatingTextarea">Komentar</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                                <button type="submit" class="btn btn-primary">Save
-                                                                    changes</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 </p>
                                             </div>
                                         </div>
@@ -152,9 +129,8 @@
                                 <legend class="col-form-label pt-0 fw-bold">Subjudul <span class="text-danger">*</span>
                                 </legend>
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingSubjudul"
-                                        placeholder="Subjudul" name="subjudul" value="{{ $buku->subjudul }}" required
-                                        readonly>
+                                    <input type="text" class="form-control" id="floatingSubjudul" placeholder="Subjudul"
+                                        name="subjudul" value="{{ $buku->subjudul }}" required readonly>
                                     <label for="floatingSubjudul">Subjudul</label>
                                 </div>
                             </div>
@@ -243,14 +219,14 @@
                                         Editor</a>
                                 @else
                                     {{-- <input type="submit" value="Penerbitan" name="status" class="btn btn-success"
-                                        placeholder="Layak Terbit">
-                                    <input type="submit" value="Ditolak" name="status" class="btn btn-danger"
-                                        placeholder="Tidak Layak Terbit"> --}}
-                                        <input type="submit" value="Diterima" name="status" class="btn btn-success"
+                                        placeholder="Layak Terbit"> --}}
+                                    <input type="submit" value="Diterima" name="status" class="btn btn-success"
                                         placeholder="Diterima">
 
                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#revisi">Revisi</button>
+                                    <input type="submit" value="Ditolak" name="status" class="btn btn-danger"
+                                        placeholder="Ditolak">
                                     <div class="modal fade" id="revisi" tabindex="-1">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -281,6 +257,55 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="komentar" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form class="row g-3 mt-0" action="{{ route('editor.akuisisi.store') }}" id="stepForm"
+                            method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title">Beri Komentar</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="komen" value="komentar">
+                                <input type="hidden" name="id_buku" value="{{ $buku->id_buku }}">
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" name="komentar" placeholder="Leave a comment here" id="floatingTextarea"
+                                        style="height: 100px;"></textarea>
+                                    <label for="floatingTextarea">Komentar</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Beri
+                                    Komentar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            @if (session('success'))
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: '{{ session('success') }}'
+                    });
+                </script>
+            @endif
+            @if ($errors->any())
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oopss...',
+                        text: '{{ $errors->first() }}'
+                    });
+                </script>
+            @endif
 
             <script>
                 $(document).ready(function() {

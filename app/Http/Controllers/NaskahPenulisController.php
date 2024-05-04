@@ -77,80 +77,106 @@ class NaskahPenulisController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'judul' => 'required',
-            'subjudul' => 'required',
-            'abstrak' => 'required',
-            'kontributor' => 'required',
-            'cover' => 'required|image|mimes:jpeg,png,jpg',
-            'file' => 'required|mimes:doc,docx',
-            'kategori' => 'required',
-            'persyaratan' => 'required',
-            'kebijakanPrivasi' => 'required',
-        ]);
+        if ($request->komen == 'komentar') {
+            $cek = Buku::find($request->id_buku);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+            if (!$cek) {
+                return back()->withErrors(['error' => 'Kesalahan sistem coba kembali.']);
+            }
 
-        $naskah_path = null;
-        $cover_path = null;
-        $file_path_naskah = 'uploads/naskah';
-        $file_path_cover = 'uploads/cover';
+            $validator = Validator::make($request->all(), [
+                'komentar' => 'required',
+            ]);
 
-        if ($request->file('cover')) {
-            $cover = $request->file('cover');
-            $cover_path = $cover->storePublicly($file_path_cover, 'public');
-        }
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
 
-        if ($request->file('file')) {
-            $naskah = $request->file('file');
-            $naskah_path = $naskah->storePublicly($file_path_naskah, 'public');
-        }
+            $naskah = new History();
+            $naskah->id_users = Auth::id();
+            $naskah->id_buku = $request->id_buku;
+            $naskah->keterangan = Auth::user()->name . " Memberi komentar " . $request->komentar;
+            $naskah->save();
 
-        $kontributor = $request->input('kontributor');
-        $kontributor_array = json_decode($kontributor);
+            return back()->with(['success' => 'Berhasil memberi komentar.']);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'judul' => 'required',
+                'subjudul' => 'required',
+                'abstrak' => 'required',
+                'kontributor' => 'required',
+                'cover' => 'required|image|mimes:jpeg,png,jpg',
+                'file' => 'required|mimes:doc,docx',
+                'kategori' => 'required',
+                'persyaratan' => 'required',
+                'kebijakanPrivasi' => 'required',
+            ]);
 
-        $naskah = new Buku();
-        $naskah->judul = $request->judul;
-        $naskah->subjudul = $request->subjudul;
-        $naskah->abstrak = $request->abstrak;
-        $naskah->cover = $cover_path;
-        $naskah->file = $naskah_path;
-        $naskah->seri = $request->seri;
-        $naskah->status = 'Penyerahan';
-        $naskah->id_users = Auth::id();
-        $naskah->save();
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
 
-        $history = new History();
-        $history->id_users = Auth::id();
-        $history->id_buku = $naskah->id_buku;
-        $history->keterangan = Auth::user()->name . " Mengirim file naskah.";
-        $history->save();
+            $naskah_path = null;
+            $cover_path = null;
+            $file_path_naskah = 'uploads/naskah';
+            $file_path_cover = 'uploads/cover';
 
-        foreach ($request->kategori as $kategori_id) {
-            $detail_kategori = new DetailKategoriBuku();
-            $detail_kategori->id_buku = $naskah->id_buku;
-            $detail_kategori->id_kategori = $kategori_id;
-            $detail_kategori->save();
-        }
+            if ($request->file('cover')) {
+                $cover = $request->file('cover');
+                $cover_path = $cover->storePublicly($file_path_cover, 'public');
+            }
 
-        $detail_kontributor = new DetailContributorsBuku();
-        $detail_kontributor->id_buku = $naskah->id_buku;
-        $detail_kontributor->id_users = Auth::id();
-        $detail_kontributor->save();
+            if ($request->file('file')) {
+                $naskah = $request->file('file');
+                $naskah_path = $naskah->storePublicly($file_path_naskah, 'public');
+            }
 
-        foreach ($kontributor_array as $id_user) {
+            $kontributor = $request->input('kontributor');
+            $kontributor_array = json_decode($kontributor);
+
+            $naskah = new Buku();
+            $naskah->judul = $request->judul;
+            $naskah->subjudul = $request->subjudul;
+            $naskah->abstrak = $request->abstrak;
+            $naskah->cover = $cover_path;
+            $naskah->file = $naskah_path;
+            $naskah->seri = $request->seri;
+            $naskah->status = 'Penyerahan';
+            $naskah->id_users = Auth::id();
+            $naskah->save();
+
+            $history = new History();
+            $history->id_users = Auth::id();
+            $history->id_buku = $naskah->id_buku;
+            $history->keterangan = Auth::user()->name . " Mengirim file naskah.";
+            $history->save();
+
+            foreach ($request->kategori as $kategori_id) {
+                $detail_kategori = new DetailKategoriBuku();
+                $detail_kategori->id_buku = $naskah->id_buku;
+                $detail_kategori->id_kategori = $kategori_id;
+                $detail_kategori->save();
+            }
+
             $detail_kontributor = new DetailContributorsBuku();
             $detail_kontributor->id_buku = $naskah->id_buku;
-            $detail_kontributor->id_users = $id_user;
+            $detail_kontributor->id_users = Auth::id();
             $detail_kontributor->save();
+
+            foreach ($kontributor_array as $id_user) {
+                $detail_kontributor = new DetailContributorsBuku();
+                $detail_kontributor->id_buku = $naskah->id_buku;
+                $detail_kontributor->id_users = $id_user;
+                $detail_kontributor->save();
+            }
+
+
+            return redirect()->route('naskah')->with('success', 'Naskah berhasil dikirim');
         }
-
-
-        return redirect()->route('naskah')->with('success', 'Naskah berhasil dikirim');
     }
 
     /**

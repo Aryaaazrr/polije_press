@@ -81,7 +81,7 @@
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                 <!-- Profile Edit Form -->
-                                <form action="{{ route('admin.profile.update', Auth::user()->id_users) }}" method="POST">
+                                <form action="{{ route('pengelola.profile.update', Auth::user()->id_users) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="row mb-3">
@@ -117,9 +117,12 @@
 
                             <div class="tab-pane fade pt-3" id="profile-change-password">
                                 <!-- Change Password Form -->
-                                <form>
-
+                                <form action="{{ route('pengelola.profile.update', Auth::user()->id_users) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
                                     <div class="row mb-3">
+                                        <input name="up_password" type="hidden" class="form-control" id="currentPassword"
+                                            value="up_password">
                                         <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
                                             Password</label>
                                         <div class="col-md-8 col-lg-9">
@@ -132,7 +135,8 @@
                                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
                                             Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                            <input name="newpassword" type="password" class="form-control"
+                                                id="newPassword">
                                         </div>
                                     </div>
 

@@ -69,29 +69,6 @@
                                                         data-bs-toggle="modal" data-bs-target="#komentar">
                                                         Beri Komentar
                                                     </button>
-                                                <div class="modal fade" id="komentar" tabindex="-1">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Beri Komentar</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="form-floating mb-3">
-                                                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;"></textarea>
-                                                                    <label for="floatingTextarea">Komentar</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                                <button type="submit" class="btn btn-primary">Save
-                                                                    changes</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 </p>
                                             </div>
                                         </div>
@@ -152,9 +129,8 @@
                                 <legend class="col-form-label pt-0 fw-bold">Subjudul <span class="text-danger">*</span>
                                 </legend>
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingSubjudul"
-                                        placeholder="Subjudul" name="subjudul" value="{{ $buku->subjudul }}" required
-                                        readonly>
+                                    <input type="text" class="form-control" id="floatingSubjudul" placeholder="Subjudul"
+                                        name="subjudul" value="{{ $buku->subjudul }}" required readonly>
                                     <label for="floatingSubjudul">Subjudul</label>
                                 </div>
                             </div>
@@ -241,11 +217,11 @@
                                 @if ($buku->status == 'Penyerahan')
                                     <a href="{{ route('admin.editor') }}" class="btn btn-info submit-step">Tugaskan
                                         Editor</a>
-                                @else
-                                <input type="submit" value="Penerbitan" name="status" class="btn btn-success"
+                                @elseif ($buku->publish == null)
+                                    <input type="submit" value="Layak terbit" name="status" class="btn btn-success"
                                         placeholder="Layak Terbit">
-                                    <input type="submit" value="Ditolak" name="status" class="btn btn-danger"
-                                        placeholder="Tidak Layak Terbit">
+                                    {{-- <input type="submit" value="Ditolak" name="status" class="btn btn-danger"
+                                        placeholder="Tidak Layak Terbit"> --}}
                                     {{-- <input type="submit" value="Diterima" name="status" class="btn btn-success"
                                         placeholder="Diterima">
 
@@ -275,6 +251,9 @@
                                             </div>
                                         </div>
                                     </div> --}}
+                                @else
+                                    <a href="{{ route('editor.naskah.tugas') }}"
+                                        class="btn btn-primary submit-step">Kembali</a>
                                 @endif
                             </div>
                         </form>
@@ -282,185 +261,233 @@
                 </div>
             </div>
 
-            <script>
-                $(document).ready(function() {
-                    // var table = $('#myTableModal').DataTable({
-                    //     serverSide: true,
-                    //     responsive: true,
-                    //     select: true,
-                    //     processing: true,
-                    //     ajax: '{{ route('admin.naskah.datauser') }}',
-                    //     columns: [{
-                    //             data: 'name',
-                    //             name: 'name'
-                    //         },
-                    //         {
-                    //             data: 'email',
-                    //             name: 'email'
-                    //         },
-                    //         {
-                    //             data: 'role.nama_role',
-                    //             name: 'role.nama_role'
-                    //         },
-                    //         {
-                    //             data: null,
-                    //             render: function(data) {
-                    //                 return '<div class="row justify-content-center">' +
-                    //                     '<div class="col-auto">' +
-                    //                     '<input type="checkbox" class="form-check-input m-1" data-id="' +
-                    //                     data.id_users +
-                    //                     '">' +
-                    //                     '</div>';
-                    //             }
-                    //         }
-                    //     ]
-                    // });
+            <div class="modal fade" id="komentar" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form class="row g-3 mt-0" action="{{ route('editor.naskah.store') }}" id="stepForm"
+                            method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title">Beri Komentar</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="komen" value="komentar">
+                                <input type="hidden" name="id_buku" value="{{ $buku->id_buku }}">
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" name="komentar" placeholder="Leave a comment here" id="floatingTextarea"
+                                        style="height: 100px;"></textarea>
+                                    <label for="floatingTextarea">Komentar</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Beri
+                                    Komentar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
-                    $('#simpan').on('click', function() {
-                        var selectedData = [];
+                @if (session('success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: '{{ session('success') }}'
+                        });
+                    </script>
+                @endif
+                @if ($errors->any())
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oopss...',
+                            text: '{{ $errors->first() }}'
+                        });
+                    </script>
+                @endif
 
-                        $('#myTableModal input[type="checkbox"].form-check-input:checked').each(function() {
-                            var rowData = $(this).closest('tr').find('td').map(function() {
-                                return $(this).text();
-                            }).get();
+                <script>
+                    $(document).ready(function() {
+                        // var table = $('#myTableModal').DataTable({
+                        //     serverSide: true,
+                        //     responsive: true,
+                        //     select: true,
+                        //     processing: true,
+                        //     ajax: '{{ route('admin.naskah.datauser') }}',
+                        //     columns: [{
+                        //             data: 'name',
+                        //             name: 'name'
+                        //         },
+                        //         {
+                        //             data: 'email',
+                        //             name: 'email'
+                        //         },
+                        //         {
+                        //             data: 'role.nama_role',
+                        //             name: 'role.nama_role'
+                        //         },
+                        //         {
+                        //             data: null,
+                        //             render: function(data) {
+                        //                 return '<div class="row justify-content-center">' +
+                        //                     '<div class="col-auto">' +
+                        //                     '<input type="checkbox" class="form-check-input m-1" data-id="' +
+                        //                     data.id_users +
+                        //                     '">' +
+                        //                     '</div>';
+                        //             }
+                        //         }
+                        //     ]
+                        // });
 
-                            var exists = false;
-                            $('#myTable tbody tr').each(function() {
-                                var existingName = $(this).find('td:eq(0)').text();
-                                var existingEmail = $(this).find('td:eq(1)').text();
-                                var existingRole = $(this).find('td:eq(2)').text();
-                                if (existingName === rowData[0] && existingEmail === rowData[1] &&
-                                    existingRole === rowData[2]) {
-                                    exists = true;
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Oops...",
-                                        text: "Pengguna telah dipilih!",
+                        $('#simpan').on('click', function() {
+                            var selectedData = [];
+
+                            $('#myTableModal input[type="checkbox"].form-check-input:checked').each(function() {
+                                var rowData = $(this).closest('tr').find('td').map(function() {
+                                    return $(this).text();
+                                }).get();
+
+                                var exists = false;
+                                $('#myTable tbody tr').each(function() {
+                                    var existingName = $(this).find('td:eq(0)').text();
+                                    var existingEmail = $(this).find('td:eq(1)').text();
+                                    var existingRole = $(this).find('td:eq(2)').text();
+                                    if (existingName === rowData[0] && existingEmail === rowData[1] &&
+                                        existingRole === rowData[2]) {
+                                        exists = true;
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Oops...",
+                                            text: "Pengguna telah dipilih!",
+                                        });
+                                        return false;
+                                    }
+                                });
+
+                                if (!exists) {
+                                    selectedData.push({
+                                        id_users: $(this).data('id'),
+                                        name: rowData[0],
+                                        email: rowData[1],
+                                        role: rowData[2]
                                     });
-                                    return false;
                                 }
+
+                                $(this).closest('tr').remove();
                             });
 
-                            if (!exists) {
-                                selectedData.push({
-                                    id_users: $(this).data('id'),
-                                    name: rowData[0],
-                                    email: rowData[1],
-                                    role: rowData[2]
-                                });
-                            }
+                            selectedData.forEach(function(data) {
+                                $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.email +
+                                    '</td><td>' + data.role +
+                                    '</td><td><button type="button" class="btn btn-danger btn-delete">Hapus</button></td></tr>'
+                                );
+                            });
 
+                            var idKontributorArray = selectedData.map(function(data) {
+                                return data.id_users;
+                            });
+                            $('#id_kontributor').val(JSON.stringify(idKontributorArray));
+                        });
+
+                        $(document).on('click', '.btn-delete', function() {
                             $(this).closest('tr').remove();
+                            table.ajax.reload();
                         });
 
-                        selectedData.forEach(function(data) {
-                            $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.email +
-                                '</td><td>' + data.role +
-                                '</td><td><button type="button" class="btn btn-danger btn-delete">Hapus</button></td></tr>'
-                            );
-                        });
+                        $('.datatable-input').on('input', function() {
+                            var searchText = $(this).val().toLowerCase();
 
-                        var idKontributorArray = selectedData.map(function(data) {
-                            return data.id_users;
+                            $('.table tr').each(function() {
+                                var rowData = $(this).text().toLowerCase();
+                                if (rowData.indexOf(searchText) === -1) {
+                                    $(this).hide();
+                                } else {
+                                    $(this).show();
+                                }
+                            });
                         });
-                        $('#id_kontributor').val(JSON.stringify(idKontributorArray));
                     });
 
-                    $(document).on('click', '.btn-delete', function() {
-                        $(this).closest('tr').remove();
-                        table.ajax.reload();
-                    });
+                    $('#stepForm').submit(function(event) {
+                        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                        var syaratCheckboxes = document.querySelectorAll('input[name^="persyaratan"]');
+                        // var sebagai = document.querySelectorAll('input[type="radio"]');
+                        var kebijakanPrivasi = document.querySelectorAll('input[name^="kebijakanPrivasi"]');
+                        var isChecked = false;
+                        var isSyaratChecked = true;
+                        var iskebijakanPrivasi = true;
+                        var isSebagai = false;
 
-                    $('.datatable-input').on('input', function() {
-                        var searchText = $(this).val().toLowerCase();
-
-                        $('.table tr').each(function() {
-                            var rowData = $(this).text().toLowerCase();
-                            if (rowData.indexOf(searchText) === -1) {
-                                $(this).hide();
-                            } else {
-                                $(this).show();
+                        checkboxes.forEach(function(checkbox) {
+                            if (checkbox.checked) {
+                                isChecked = true;
                             }
                         });
-                    });
-                });
 
-                $('#stepForm').submit(function(event) {
-                    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                    var syaratCheckboxes = document.querySelectorAll('input[name^="persyaratan"]');
-                    // var sebagai = document.querySelectorAll('input[type="radio"]');
-                    var kebijakanPrivasi = document.querySelectorAll('input[name^="kebijakanPrivasi"]');
-                    var isChecked = false;
-                    var isSyaratChecked = true;
-                    var iskebijakanPrivasi = true;
-                    var isSebagai = false;
-
-                    checkboxes.forEach(function(checkbox) {
-                        if (checkbox.checked) {
-                            isChecked = true;
-                        }
-                    });
-
-                    syaratCheckboxes.forEach(function(checkbox) {
-                        if (!checkbox.checked) {
-                            isSyaratChecked = false;
-                        }
-                    });
-
-                    // sebagai.forEach(function(checkbox) {
-                    //     if (checkbox.checked) {
-                    //         isSebagai = true;
-                    //     }
-                    // });
-
-                    kebijakanPrivasi.forEach(function(checkbox) {
-                        if (!checkbox.checked) {
-                            iskebijakanPrivasi = false;
-                        }
-                    });
-
-                    if (!isChecked) {
-                        event.preventDefault(); // Menghentikan pengiriman formulir
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: "Pilih minimal satu kategori!",
+                        syaratCheckboxes.forEach(function(checkbox) {
+                            if (!checkbox.checked) {
+                                isSyaratChecked = false;
+                            }
                         });
-                        return;
-                    }
 
-                    if (!isSyaratChecked) {
-                        event.preventDefault(); // Menghentikan pengiriman formulir
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: "Anda harus menyetujui semua persyaratan!",
+                        // sebagai.forEach(function(checkbox) {
+                        //     if (checkbox.checked) {
+                        //         isSebagai = true;
+                        //     }
+                        // });
+
+                        kebijakanPrivasi.forEach(function(checkbox) {
+                            if (!checkbox.checked) {
+                                iskebijakanPrivasi = false;
+                            }
                         });
-                        return;
-                    }
 
-                    // if (!isSebagai) {
-                    //     event.preventDefault(); // Menghentikan pengiriman formulir
-                    //     Swal.fire({
-                    //         icon: "error",
-                    //         title: "Oops...",
-                    //         text: "Anda harus memilih salah satu untuk peran pengajuan!",
-                    //     });
-                    //     return;
-                    // }
+                        if (!isChecked) {
+                            event.preventDefault(); // Menghentikan pengiriman formulir
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Pilih minimal satu kategori!",
+                            });
+                            return;
+                        }
 
-                    if (!iskebijakanPrivasi) {
-                        event.preventDefault(); // Menghentikan pengiriman formulir
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: "Anda harus menyetujui kebijakan & privasi!",
-                        });
-                        return;
-                    }
+                        if (!isSyaratChecked) {
+                            event.preventDefault(); // Menghentikan pengiriman formulir
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Anda harus menyetujui semua persyaratan!",
+                            });
+                            return;
+                        }
 
-                    // Tambahkan validasi lainnya di sini jika diperlukan
-                });
-            </script>
+                        // if (!isSebagai) {
+                        //     event.preventDefault(); // Menghentikan pengiriman formulir
+                        //     Swal.fire({
+                        //         icon: "error",
+                        //         title: "Oops...",
+                        //         text: "Anda harus memilih salah satu untuk peran pengajuan!",
+                        //     });
+                        //     return;
+                        // }
+
+                        if (!iskebijakanPrivasi) {
+                            event.preventDefault(); // Menghentikan pengiriman formulir
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Anda harus menyetujui kebijakan & privasi!",
+                            });
+                            return;
+                        }
+
+                        // Tambahkan validasi lainnya di sini jika diperlukan
+                    });
+                </script>
     </section>
 @endsection
