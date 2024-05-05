@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
+use App\Models\History;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EditorAkuisisiController extends Controller
@@ -12,7 +15,23 @@ class EditorAkuisisiController extends Controller
 
     public function dashboard()
     {
-        return view('pages.editorAkuisisi.dashboard.index');
+        $jumlahNaskahPenyerahan = Buku::where('status', '=', 'Penyerahan')->count();
+        $jumlahNaskahDiterima = Buku::where('status', '=', 'Diterima')->count();
+        $jumlahNaskahDitolak = Buku::where('status', '=', 'Ditolak')->count();
+        $jumlahPenulis = User::where('id_role', '=', '2')->count();
+        $jumlahEditorNaskah = User::where('id_role', '=', '3')->count();
+        $jumlahPengelola = User::where('id_role', '=', '5')->count();
+        $history = History::with(['users', 'buku'])->orderBy('created_at', 'desc')->get();
+
+        return view('pages.editorAkuisisi.dashboard.index', [
+            'jumlahNaskahPenyerahan' => $jumlahNaskahPenyerahan,
+            'jumlahNaskahDiterima' => $jumlahNaskahDiterima,
+            'jumlahNaskahDitolak' => $jumlahNaskahDitolak,
+            'jumlahPenulis' => $jumlahPenulis,
+            'jumlahEditorNaskah' => $jumlahEditorNaskah,
+            'jumlahPengelola' => $jumlahPengelola,
+            'history' => $history
+        ]);
     }
 
     public function index()

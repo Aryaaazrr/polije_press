@@ -21,37 +21,41 @@
                 <div class="row">
                     <!-- Sales Card -->
                     <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card sales-card">
+                        <div class="card info-card naskah-penyerahan-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Sales <span>| Today</span></h5>
+                                <h5 class="card-title">Naskah Penyerahan</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-cart"></i>
+                                        <i class="bi bi-book"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>145</h6> <span class="text-muted small pt-2 ps-1">increase</span>
+                                        <h6>{{ $jumlahNaskahPenyerahan }}</h6> <span
+                                            class="text-muted small pt-2 ps-1">Jumlah Naskah Penyerahan</span>
 
                                     </div>
                                 </div>
                             </div>
+
 
                         </div>
                     </div><!-- End Sales Card -->
 
                     <!-- Revenue Card -->
                     <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card revenue-card">
+                        <div class="card info-card naskah-diterima-card">
                             <div class="card-body">
-                                <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                                <h5 class="card-title">Naskah Diterima</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-currency-dollar"></i>
+                                        <i class="bi bi-book"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>$3,264</h6><span class="text-muted small pt-2 ps-1">increase</span>
+                                        <h6>{{ $jumlahNaskahDiterima }}</h6><span class="text-muted small pt-2 ps-1">Jumlah
+                                            Naskah
+                                            Diterima</span>
 
                                     </div>
                                 </div>
@@ -63,17 +67,88 @@
                     <!-- Customers Card -->
                     <div class="col-xxl-4 col-xl-12">
 
-                        <div class="card info-card customers-card">
+                        <div class="card info-card naskah-ditolak-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Customers <span>| This Year</span></h5>
+                                <h5 class="card-title">Naskah Ditolak</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-book"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ $jumlahNaskahDitolak }}</h6><span class="text-muted small pt-2 ps-1">Jumlah
+                                            Naskah
+                                            Ditolak</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+
+                    <div class="col-xxl-4 col-xl-12">
+
+                        <div class="card info-card penulis-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Penulis</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-people"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>1244</h6> <span class="text-muted small pt-2 ps-1">decrease</span>
+                                        <h6>{{ $jumlahPenulis }}</h6> <span class="text-muted small pt-2 ps-1">Jumlah
+                                            Penulis</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Customers Card -->
+                    <div class="col-xxl-4 col-xl-12">
+
+                        <div class="card info-card akuisisi-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Editor Akuisisi</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ $jumlahEditorAkuisisi }}</h6> <span class="text-muted small pt-2 ps-1">Jumlah
+                                            Editor Akuisisi</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+
+                    <div class="col-xxl-4 col-xl-12">
+
+                        <div class="card info-card naskah-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Editor Naskah</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ $jumlahEditorNaskah }}</h6> <span class="text-muted small pt-2 ps-1">Jumlah
+                                            Editor Naskah</span>
 
                                     </div>
                                 </div>
@@ -87,73 +162,21 @@
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto h-100">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dr opdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-
                             <div class="card-body">
-                                <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+                                <h5 class="card-title">Naskah </h5>
 
-                                <table class="table table-borderless datatable">
+                                <table class="table table-borderless" id="myTable">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Customer</th>
-                                            <th scope="col">Product</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Status</th>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Penulis</th>
+                                            <th class="text-center">Judul</th>
+                                            <th class="text-center">Subjudul</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2457</a></th>
-                                            <td>Brandon Jacob</td>
-                                            <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                                            <td>$64</td>
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2147</a></th>
-                                            <td>Bridie Kessler</td>
-                                            <td><a href="#" class="text-primary">Blanditiis dolor omnis
-                                                    similique</a></td>
-                                            <td>$47</td>
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2049</a></th>
-                                            <td>Ashleigh Langosh</td>
-                                            <td><a href="#" class="text-primary">At recusandae consectetur</a>
-                                            </td>
-                                            <td>$147</td>
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2644</a></th>
-                                            <td>Angus Grady</td>
-                                            <td><a href="#" class="text-primar">Ut voluptatem id earum et</a>
-                                            </td>
-                                            <td>$67</td>
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2644</a></th>
-                                            <td>Raheem Lehner</td>
-                                            <td><a href="#" class="text-primary">Sunt similique distinctio</a>
-                                            </td>
-                                            <td>$165</td>
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                        </tr>
                                     </tbody>
                                 </table>
 
@@ -168,75 +191,22 @@
             <div class="col-lg-4">
 
                 <!-- Recent Activity -->
-                <div class="card h-100">
-                    <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <li class="dropdown-header text-start">
-                                <h6>Filter</h6>
-                            </li>
-
-                            <li><a class="dropdown-item" href="#">Today</a></li>
-                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                            <li><a class="dropdown-item" href="#">This Year</a></li>
-                        </ul>
-                    </div>
+                <div class="card">
 
                     <div class="card-body">
-                        <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+                        <h5 class="card-title">Recent Activity</h5>
 
                         <div class="activity">
 
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">32 min</div>
-                                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                                <div class="activity-content">
-                                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a>
-                                    beatae
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">56 min</div>
-                                <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                                <div class="activity-content">
-                                    Voluptatem blanditiis blanditiis eveniet
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">2 hrs</div>
-                                <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                                <div class="activity-content">
-                                    Voluptates corrupti molestias voluptatem
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">1 day</div>
-                                <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                                <div class="activity-content">
-                                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati
-                                        voluptatem</a> tempore
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">2 days</div>
-                                <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                                <div class="activity-content">
-                                    Est sit eum reiciendis exercitationem
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">4 weeks</div>
-                                <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                                <div class="activity-content">
-                                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                                </div>
-                            </div><!-- End activity item-->
-
+                            @foreach ($history as $item)
+                                <div class="activity-item d-flex">
+                                    <div class="activite-label">{{ $item->created_at->format('H:i:s') }}</div>
+                                    <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                                    <div class="activity-content">
+                                        <a href="#" class="fw-bold text-dark">{{ $item->keterangan }}</a>
+                                    </div>
+                                </div><!-- End activity item-->
+                            @endforeach
                         </div>
 
                     </div>
@@ -244,5 +214,134 @@
             </div><!-- End Right side columns -->
 
         </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    processing: true,
+                    responsive: true,
+                    serverSide: true,
+                    ajax: '{{ route('pengelola.naskah.data') }}',
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex'
+                        },
+                        {
+                            data: 'penulis',
+                            name: 'penulis'
+                        },
+                        {
+                            data: 'judul',
+                            name: 'judul'
+                        },
+                        {
+                            data: 'subjudul',
+                            name: 'subjudul'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status'
+                        },
+                        {
+                            data: null,
+                            render: function(data) {
+                                var historyRows = '';
+                                data.historyRows.forEach(function(historyRow) {
+                                    var createdAt = new Date(historyRow.created_at);
+                                    var day = createdAt.getDate().toString().padStart(2, '0');
+                                    var month = (createdAt.getMonth() + 1).toString().padStart(
+                                        2, '0');
+                                    var year = createdAt.getFullYear();
+                                    var hours = createdAt.getHours().toString().padStart(2,
+                                        '0');
+                                    var minutes = createdAt.getMinutes().toString().padStart(2,
+                                        '0');
+                                    var formattedCreatedAt = day + '-' + month + '-' + year +
+                                        ' ' + hours +
+                                        ':' + minutes;
+                                    if (historyRow.file_revisi != null) {
+                                        historyRows += '<tr>' +
+                                            '<td class="text-center">' + formattedCreatedAt +
+                                            '</td>' +
+                                            '<td class="text-center">' + (historyRow.users ?
+                                                historyRow.users.name : '-') + '</td>' +
+                                            '<td class="text-center">' + historyRow.keterangan +
+                                            ' - ' +
+                                            '<a href="storage/' + historyRow.file_revisi +
+                                            '" download="' +
+                                            data.judul + '.docx">File Revisi ' + data.judul +
+                                            '.docx</a></td>' +
+                                            '</tr>';
+                                    } else {
+                                        historyRows += '<tr>' +
+                                            '<td class="text-center">' + formattedCreatedAt +
+                                            '</td>' +
+                                            '<td class="text-center">' + (historyRow.users ?
+                                                historyRow.users.name : '-') + '</td>' +
+                                            '<td class="text-center">' + historyRow.keterangan +
+                                            '</td>' +
+                                            '</tr>';
+                                    }
+                                });
+
+                                return '<div class="row justify-content-center">' +
+                                    '<div class="col-auto">' +
+                                    '<button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#basicModal' +
+                                    data.id_buku +
+                                    '"><i class="bi bi-clipboard-data"></i></button>' +
+                                    '<a href="{{ route('admin.naskah.edit', '') }}/' + data.id_buku +
+                                    '" class="btn btn-info m-1"><i class="bi bi-exclamation-circle"></i></a>' +
+                                    '<div class="modal fade" id="basicModal' + data.id_buku +
+                                    '" tabindex="-1">' +
+                                    '<div class="modal-dialog modal-lg">' +
+                                    '<div class="modal-content">' +
+                                    '<div class="modal-header">' +
+                                    '<h5 class="modal-title"> ' + data.judul + '</h5>' +
+                                    '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' +
+                                    '</div>' +
+                                    '<div class="modal-body text-start">' +
+                                    '<table class="table table-hover table-bordered" id="myTable">' +
+                                    '<thead>' +
+                                    '<tr>' +
+                                    '<th class="text-center">Tanggal</th>' +
+                                    '<th class="text-center">Pengguna</th>' +
+                                    '<th class="text-center">Keterangan</th>' +
+                                    '</tr>' +
+                                    '</thead>' +
+                                    '<tbody class="text-center">' + historyRows + '</tbody>' +
+                                    '</table>' +
+                                    '<div class="modal-footer">' +
+                                    '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                            }
+                        }
+                    ],
+                    rowCallback: function(row, data, index) {
+                        var dt = this.api();
+                        $(row).attr('data-id', data.id);
+                        $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                    }
+                });
+
+
+                $('.datatable-input').on('input', function() {
+                    var searchText = $(this).val().toLowerCase();
+
+                    $('.table tr').each(function() {
+                        var rowData = $(this).text().toLowerCase();
+                        if (rowData.indexOf(searchText) === -1) {
+                            $(this).hide();
+                        } else {
+                            $(this).show();
+                        }
+                    });
+                });
+            });
+        </script>
     </section>
 @endsection

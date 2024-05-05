@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
+use App\Models\History;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PengelolaController extends Controller
@@ -11,7 +14,24 @@ class PengelolaController extends Controller
      */
     public function dashboard()
     {
-        return view('pages.pengelola.dashboard.index');
+        $jumlahNaskahPenyerahan = Buku::where('status', '=', 'Penyerahan')->count();
+        $jumlahNaskahDiterima = Buku::where('status', '=', 'Diterima')->count();
+        $jumlahNaskahDitolak = Buku::where('status', '=', 'Ditolak')->count();
+        $jumlahPenulis = User::where('id_role', '=', '2')->count();
+        $jumlahEditorAkuisisi = User::where('id_role', '=', '4')->count();
+        $jumlahEditorNaskah = User::where('id_role', '=', '3')->count();
+        $history = History::with(['users', 'buku'])->orderBy('created_at', 'desc')->get();
+
+        return view('pages.pengelola.dashboard.index', [
+            'jumlahNaskahPenyerahan' => $jumlahNaskahPenyerahan,
+            'jumlahNaskahDiterima' => $jumlahNaskahDiterima,
+            'jumlahNaskahDitolak' => $jumlahNaskahDitolak,
+            'jumlahPenulis' => $jumlahPenulis,
+            'jumlahEditorAkuisisi' => $jumlahEditorAkuisisi,
+            'jumlahEditorNaskah' => $jumlahEditorNaskah,
+            'history' => $history
+        ]);
+        
     }
 
     public function index()

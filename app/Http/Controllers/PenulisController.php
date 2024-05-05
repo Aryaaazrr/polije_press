@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
+use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PenulisController extends Controller
 {
@@ -11,7 +14,17 @@ class PenulisController extends Controller
      */
     public function dashboard()
     {
-        return view('pages.penulis.dashboard.index');
+        $jumlahNaskahPenyerahan = Buku::where('id_users', Auth::id())->where('status', '=', 'Penyerahan')->count();
+        $jumlahNaskahDiterima = Buku::where('id_users', Auth::id())->where('status', '=', 'Diterima')->count();
+        $jumlahNaskahDitolak = Buku::where('id_users', Auth::id())->where('status', '=', 'Ditolak')->count();
+        $history = History::with(['users', 'buku'])->orderBy('created_at', 'desc')->get();
+
+        return view('pages.penulis.dashboard.index', [
+            'jumlahNaskahPenyerahan' => $jumlahNaskahPenyerahan,
+            'jumlahNaskahDiterima' => $jumlahNaskahDiterima,
+            'jumlahNaskahDitolak' => $jumlahNaskahDitolak,
+            'history' => $history
+        ]);
     }
 
     public function index()

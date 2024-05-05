@@ -836,6 +836,11 @@ h6 {
     background: #e0f8e9;
 }
 
+.dashboard .naskah-ditolak-card .card-icon {
+    color: #ff1d1d;
+    background: #ffdfdf;
+}
+
 .dashboard .penulis-card .card-icon {
     color: #ff771d;
     background: #ffecdf;
