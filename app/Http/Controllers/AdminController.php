@@ -20,10 +20,19 @@ class AdminController extends Controller
         $jumlahEditorAkuisisi = User::where('id_role', '=', '4')->count();
         $jumlahEditorNaskah = User::where('id_role', '=', '3')->count();
         $jumlahPengelola = User::where('id_role', '=', '5')->count();
-        $history = History::with(['users', 'buku'])->get();
-        
-        return view('pages.admin.dashboard.index', ['jumlahNaskahPenyerahan' => $jumlahNaskahPenyerahan, 'jumlahNaskahDiterima' => $jumlahNaskahDiterima, 'jumlahPenulis' => $jumlahPenulis, 'jumlahEditorAkuisisi' => $jumlahEditorAkuisisi, 'jumlahEditorNaskah' => $jumlahEditorNaskah, 'jumlahPengelola' => $jumlahPengelola, 'history'=> $history ]);
+        $history = History::with(['users', 'buku'])->orderBy('created_at', 'desc')->get();
+
+        return view('pages.admin.dashboard.index', [
+            'jumlahNaskahPenyerahan' => $jumlahNaskahPenyerahan,
+            'jumlahNaskahDiterima' => $jumlahNaskahDiterima,
+            'jumlahPenulis' => $jumlahPenulis,
+            'jumlahEditorAkuisisi' => $jumlahEditorAkuisisi,
+            'jumlahEditorNaskah' => $jumlahEditorNaskah,
+            'jumlahPengelola' => $jumlahPengelola,
+            'history' => $history
+        ]);
     }
+
 
     public function index()
     {

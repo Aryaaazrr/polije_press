@@ -28,7 +28,7 @@
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-cart"></i>
+                                        <i class="bi bi-book"></i>
                                     </div>
                                     <div class="ps-3">
                                         <h6>{{ $jumlahNaskahPenyerahan }}</h6> <span
@@ -49,7 +49,7 @@
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-currency-dollar"></i>
+                                        <i class="bi bi-book"></i>
                                     </div>
                                     <div class="ps-3">
                                         <h6>{{ $jumlahNaskahDiterima }}</h6><span class="text-muted small pt-2 ps-1">Jumlah
