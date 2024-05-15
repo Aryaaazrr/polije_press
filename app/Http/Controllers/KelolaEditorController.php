@@ -173,13 +173,13 @@ class KelolaEditorController extends Controller
             $history = History::create([
                 'id_buku' => $request->id_buku,
                 'id_users' => $id,
-                'keterangan' => Auth::user()->name . " menugaskan " . $editor->name . " sebagai Editor Naskah untuk mereview naskah.",
+                'keterangan' => Auth::user()->name . " menugaskan " . $editor->name . " sebagai Editor Akuisisi untuk mereview naskah.",
             ]);
         } else {
             $history = History::create([
                 'id_buku' => $request->id_buku,
                 'id_users' => $id,
-                'keterangan' => Auth::user()->name . " menugaskan " . $editor->name . " sebagai Editor Akuisisi untuk menentukan penerbitan naskah.",
+                'keterangan' => Auth::user()->name . " menugaskan " . $editor->name . " sebagai Editor Naskah untuk menentukan penerbitan naskah.",
             ]);
         }
 

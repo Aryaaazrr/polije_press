@@ -50,12 +50,22 @@
                 </div>
             </div>
         </div>
+
         @if (session('success'))
             <script>
                 Swal.fire({
                     icon: 'success',
                     title: 'Berhasil',
                     text: '{{ session('success') }}'
+                });
+            </script>
+        @endif
+        @if ($errors->any())
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oopss...',
+                    text: '{{ $errors->first() }}'
                 });
             </script>
         @endif

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('history_buku', function (Blueprint $table) {
             $table->unsignedBigInteger('id_buku');
-            $table->foreign('id_buku')->references('id_buku')->on('buku');
+            $table->foreign('id_buku')->references('id_buku')->on('buku')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('id_users');
-            $table->foreign('id_users')->references('id_users')->on('users');
+            $table->foreign('id_users')->references('id_users')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('file_revisi')->nullable();
             $table->string('keterangan');
             $table->timestamps();

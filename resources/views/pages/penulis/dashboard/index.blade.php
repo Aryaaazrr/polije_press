@@ -219,7 +219,7 @@
                                     '<button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#basicModal' +
                                     data.id_buku +
                                     '"><i class="bi bi-clipboard-data"></i></button>' +
-                                    '<a href="{{ route('admin.naskah.edit', '') }}/' + data.id_buku +
+                                    '<a href="{{ route('naskah.show', '') }}/' + data.id_buku +
                                     '" class="btn btn-info m-1"><i class="bi bi-exclamation-circle"></i></a>' +
                                     '<div class="modal fade" id="basicModal' + data.id_buku +
                                     '" tabindex="-1">' +

@@ -102,6 +102,11 @@ class NaskahPenulisController extends Controller
 
             return back()->with(['success' => 'Berhasil memberi komentar.']);
         } else {
+
+            if (Auth::user()->name == null) {
+                return back()->withErrors(['error' => 'Silahkan isi nama pada profile anda terlebih dahulu.']);
+            }
+
             $validator = Validator::make($request->all(), [
                 'judul' => 'required',
                 'subjudul' => 'required',
@@ -173,7 +178,6 @@ class NaskahPenulisController extends Controller
                 $detail_kontributor->id_users = $id_user;
                 $detail_kontributor->save();
             }
-
 
             return redirect()->route('naskah')->with('success', 'Naskah berhasil dikirim');
         }
@@ -263,6 +267,7 @@ class NaskahPenulisController extends Controller
             ]);
         }
 
+        // Tambahkan kembali history yang sesuai
         $history = History::create([
             'id_buku' => $id,
             'id_users' => Auth::id(),

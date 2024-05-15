@@ -19,7 +19,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        {!! session('msg') !!}
+                        {{-- {!! session('msg') !!}
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <span class="text-sm">
@@ -30,7 +30,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                 </button>
                             </div>
-                        @endif
+                        @endif --}}
                         <form class="row g-3 mt-0" action="{{ route('naskah.store') }}" id="stepForm" method="POST"
                             enctype="multipart/form-data">
                             @csrf
@@ -266,6 +266,15 @@
                 </div>
             </div>
 
+            @if ($errors->any())
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oopss...',
+                        text: '{{ $errors->first() }}'
+                    });
+                </script>
+            @endif
             <script>
                 $(document).ready(function() {
                     var table = $('#myTableModal').DataTable({

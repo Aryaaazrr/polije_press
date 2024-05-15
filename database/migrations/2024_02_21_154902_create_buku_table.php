@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->string('seri')->nullable();
             $table->unsignedBigInteger('id_users');
-            $table->foreign('id_users')->references('id_users')->on('users');
+            $table->foreign('id_users')->references('id_users')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->enum('status', ['Penyerahan', 'Sedang Direview', 'Revisi', 'Ditolak', 'Diterima'])->nullable();
+            $table->string('loa')->nullable();
             $table->timestamp('publish')->nullable();
             $table->timestamps();
         });

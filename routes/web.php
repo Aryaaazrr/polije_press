@@ -35,27 +35,7 @@ Route::middleware('only_sign_in')->group(function () {
     Route::post('/', [AuthController::class, 'authenticate']);
     Route::get('register', [AuthController::class, 'register'])->name('register');
     Route::post('register', [AuthController::class, 'registerProses']);
-
-    Route::get('auth/google', [AuthController::class, 'google'])->name('google-login');
-    Route::get('auth/google/callback', [AuthController::class, 'handleGoogle'])->name('google-callback');
 });
-
-Route::get('verify', function () {
-    return view('auth.verify-email');
-});
-
-Route::post('verify', [AuthController::class, 'verify'])->name('verify');
-
-Route::get('/email/verify', function () {
-    return view('email.verify');
-})->middleware('auth')->name('verification.notice');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-
-    return redirect('dashboard');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');

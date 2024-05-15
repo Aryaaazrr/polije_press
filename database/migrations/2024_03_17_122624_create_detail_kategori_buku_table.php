@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('detail_kategori_buku', function (Blueprint $table) {
             $table->unsignedBigInteger('id_buku');
-            $table->foreign('id_buku')->references('id_buku')->on('buku');
+            $table->foreign('id_buku')->references('id_buku')->on('buku')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('id_kategori');
-            $table->foreign('id_kategori')->references('id_kategori')->on('kategori');
+            $table->foreign('id_kategori')->references('id_kategori')->on('kategori')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

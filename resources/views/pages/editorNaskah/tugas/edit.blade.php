@@ -213,49 +213,29 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                @if ($buku->status == 'Penyerahan')
+                            @if ($buku->status == 'Penyerahan')
+                                <div class="text-center">
                                     <a href="{{ route('admin.editor') }}" class="btn btn-info submit-step">Tugaskan
                                         Editor</a>
-                                @elseif ($buku->publish == null)
-                                    <input type="submit" value="Layak terbit" name="status" class="btn btn-success"
-                                        placeholder="Layak Terbit">
-                                    {{-- <input type="submit" value="Ditolak" name="status" class="btn btn-danger"
-                                        placeholder="Tidak Layak Terbit"> --}}
-                                    {{-- <input type="submit" value="Diterima" name="status" class="btn btn-success"
-                                        placeholder="Diterima">
-
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#revisi">Revisi</button>
-                                    <div class="modal fade" id="revisi" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Catatan Revisi</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="form-floating mb-3">
-                                                        <textarea class="form-control" name="keterangan" placeholder="Leave a comment here" id="floatingTextarea"
-                                                            style="height: 100px;"></textarea>
-                                                        <label for="floatingTextarea">Catatan</label>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <input type="submit" value="Revisi" name="status"
-                                                        class="btn btn-primary" placeholder="Kirim Revisi">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                @else
+                                </div>
+                            @elseif ($buku->publish == null)
+                                {{-- <div class="row"> --}}
+                                <div class="col-md-12">
+                                    <legend class="col-form-label pt-0 fw-bold">Upload Surat Penerbitan <span
+                                            class="text-danger">*</span>
+                                    </legend>
+                                    <input class="form-control" type="file" id="formFile" name="file"
+                                        accept=".pdf,.doc,.docx" required>
+                                </div>
+                                <input type="submit" value="Layak terbit" name="status"
+                                    class="btn btn-success mt-4 text-right" placeholder="Layak Terbit">
+                                {{-- </div> --}}
+                            @else
+                                <div class="text-center">
                                     <a href="{{ route('editor.naskah.tugas') }}"
                                         class="btn btn-primary submit-step">Kembali</a>
-                                @endif
-                            </div>
+                                </div>
+                            @endif
                         </form>
                     </div>
                 </div>

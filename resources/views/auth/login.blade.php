@@ -29,9 +29,9 @@
                                     <button type="submit" class="btn bg-gradient-info w-100 my-4 mb-2">Sign In</button>
                                 </div>
                                 <div class="text-center">
-                                    <a href="{{ route('google-login') }}" class="btn bg-gradient-danger w-100 my-2 mb-2">
+                                    {{-- <a href="{{ route('google-login') }}" class="btn bg-gradient-danger w-100 my-2 mb-2">
                                         <i class="fab fa-google me-2"></i> Sign in with Google
-                                    </a>
+                                    </a> --}}
                                 </div>
                             </form>
                             <p class="mt-2 text-sm text-center">

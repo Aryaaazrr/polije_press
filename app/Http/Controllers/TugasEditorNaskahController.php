@@ -156,6 +156,15 @@ class TugasEditorNaskahController extends Controller
                 ->with('error', 'Naskah tidak ditemukan.');
         }
 
+        $loa_path = null;
+        $file_path_loa = 'uploads/loa';
+        
+        if ($request->file('file')) {
+            $loa = $request->file('file');
+            $loa_path = $loa->storePublicly($file_path_loa, 'public');
+        }
+
+        $buku->loa = $loa_path;
         $buku->publish = Carbon::now();
         $buku->save();
         $history = History::create([
