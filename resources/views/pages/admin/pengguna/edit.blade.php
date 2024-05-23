@@ -52,19 +52,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="floatingEmail" placeholder="Your Email"
-                                        name="email" value="{{ $users->email }}" readonly>
-                                    <label for="floatingEmail">Email</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
                                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
                                         name="password" value="{{ Hash::make($users->password) }}" disabled>
                                     <label for="floatingPassword">Password</label>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="floatingSelect" aria-label="State" name="role"
                                         required>

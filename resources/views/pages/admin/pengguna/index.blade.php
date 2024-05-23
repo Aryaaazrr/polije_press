@@ -30,51 +30,11 @@
                                     <th class="text-center">No</th>
                                     <th class="text-center">Name</th>
                                     <th class="text-center">Username</th>
-                                    <th class="text-center">Email</th>
                                     <th class="text-center">Role</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                {{-- @foreach ($users as $user)
-                                        <tr>
-                                            <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td class="text-center">{{ $user->name }}</td>
-                                            <td class="text-center">{{ $user->username }}</td>
-                                            <td class="text-center">{{ $user->email }}</td>
-                                            <td class="text-center">{{ $user->role->nama_role }}</td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                                    data-bs-target="#basicModal{{ $user->id_users }}"><i
-                                                        class="bi bi-exclamation-circle"></i></button>
-                                                <div class="modal fade" id="basicModal{{ $user->id_users }}" tabindex="-1">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">{{ $user->username }}</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body text-start">
-                                                                <div>Nama : {{ $user->name }}</div>
-                                                                <div>Username : {{ $user->username }}</div>
-                                                                <div>Email : {{ $user->email }}</div>
-                                                                <div>Tanggal Akun Dibuat : {{ $user->created_at }}</div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <a href="{{ route('admin.pengguna.edit', $user->id_users) }}"
-                                                    class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
-                                                <a href="{{ route('admin.pengguna.destroy', $user->id_users) }}"
-                                                    class="btn btn-danger"><i class="bi bi-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
                             </tbody>
                         </table>
                     </div>
@@ -108,10 +68,6 @@
                         {
                             data: 'username',
                             name: 'username'
-                        },
-                        {
-                            data: 'email',
-                            name: 'email'
                         },
                         {
                             data: 'role.nama_role',
@@ -153,7 +109,6 @@
                                     '<div class="modal-body text-start">' +
                                     '<div>Nama : ' + data.name + '</div>' +
                                     '<div>Username : ' + data.username + '</div>' +
-                                    '<div>Email : ' + data.email + '</div>' +
                                     '<div>Tanggal Akun Dibuat : ' + formattedCreatedAt + '</div>' +
                                     '</div>' +
                                     '<div class="modal-footer">' +

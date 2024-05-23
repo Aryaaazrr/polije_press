@@ -28,7 +28,7 @@ class PenggunaController extends Controller
 
         return DataTables::of($users)
             ->addColumn('DT_RowIndex', function ($user) {
-                return $user->id_users; // Sesuaikan dengan kolom yang berisi id
+                return $user->id_users;
             })
             ->toJson();
     }
@@ -50,7 +50,6 @@ class PenggunaController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'username' => 'required|max:255|unique:users',
-            'email' => 'required|unique:users|email',
             'password' => 'required|min:8',
             'role' => 'required',
         ]);
@@ -65,7 +64,6 @@ class PenggunaController extends Controller
             $user = new User();
             $user->name = $request->name;
             $user->username = $request->username;
-            $user->email = $request->email;
             $user->password = Hash::make($request->password);
             $user->id_role = $request->role;
             $user->save();
