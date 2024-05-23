@@ -23,6 +23,33 @@ class NaskahPengelolaController extends Controller
         return view('pages.pengelola.naskah.index');
     }
 
+    public function dataTerbit()
+    {
+        $query = Buku::query();
+
+        $query->where('status', 'Diterima')->whereNot('publish', null);
+        $data = $query->with(['users', 'history'])->get();
+        $rowData = [];
+
+        foreach ($data as $row) {
+            $historyRows = History::with(['users', 'buku'])
+                ->where('id_buku', $row->id_buku)
+                ->get();
+
+            $rowData[] = [
+                'id_buku' => $row->id_buku,
+                'DT_RowIndex' => $row->id_buku,
+                'penulis' => $row->users->name ?? '-',
+                'judul' => $row->judul ?? '-',
+                'subjudul' => $row->subjudul ?? '-',
+                'status' => $row->status ?? '-',
+                'historyRows' => $historyRows,
+            ];
+        }
+
+        return DataTables::of($rowData)->toJson();
+    }
+
     public function data()
     {
         $data = Buku::with(['users', 'history'])->get();
@@ -100,9 +127,9 @@ class NaskahPengelolaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        return view('pages.pengelola.naskah.show');
     }
 
     /**

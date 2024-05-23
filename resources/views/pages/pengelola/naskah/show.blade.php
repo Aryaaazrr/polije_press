@@ -19,10 +19,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <h5 class="card-title">Monitoring Naskah</h5>
-                            <div class="h-10 d-flex align-items-center">
-                                <a href="{{ route('pengelola.naskah.show') }}" class="btn btn-warning mx-2">Naskah Terbit</a>
-                            </div>
+                            <h5 class="card-title">Naskah Layak Terbit</h5>
                         </div>
                         <div class="tab-content pt-2" id="borderedTabJustifiedContent">
                             <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel"
@@ -36,7 +33,6 @@
                                                 <th class="text-center">Judul</th>
                                                 <th class="text-center">Subjudul</th>
                                                 <th class="text-center">Status</th>
-                                                <th class="text-center">Tanggal Terbit</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
@@ -66,7 +62,7 @@
                     processing: true,
                     responsive: true,
                     serverSide: true,
-                    ajax: '{{ route('pengelola.naskah.data') }}',
+                    ajax: '{{ route('pengelola.naskah.data.terbit') }}',
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex'
@@ -86,10 +82,6 @@
                         {
                             data: 'status',
                             name: 'status'
-                        },
-                        {
-                            data: 'tanggalTerbit',
-                            name: 'tanggalTerbit'
                         },
                         {
                             data: null,
@@ -138,8 +130,7 @@
                                     '<button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#basicModal' +
                                     data.id_buku +
                                     '"><i class="bi bi-clipboard-data"></i></button>' +
-                                    '<a href="{{ route('pengelola.naskah.edit', '') }}/' + data
-                                    .id_buku +
+                                    '<a href="{{ route('admin.naskah.edit', '') }}/' + data.id_buku +
                                     '" class="btn btn-info m-1"><i class="bi bi-exclamation-circle"></i></a>' +
                                     '<div class="modal fade" id="basicModal' + data.id_buku +
                                     '" tabindex="-1">' +

@@ -21,6 +21,7 @@
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title">Monitoring Naskah</h5>
                             <div class="h-10 d-flex align-items-center">
+                                <a href="{{ route('admin.naskah.show') }}" class="btn btn-warning mx-2">Naskah Terbit</a>
                                 <a href="{{ route('admin.naskah.create') }}" class="btn btn-success">Upload Naskah</a>
                             </div>
                         </div>

@@ -3,12 +3,8 @@
 
       <div class="d-flex align-items-center justify-content-between">
           <a href="/" class="logo d-flex align-items-center">
-              {{-- <img src="{{ asset('admin/assets/img/logo-gabung-1024x228.png') }}" class="navbar-brand-img h-100"
-                alt="main_logo"> --}}
               <img src="{{ asset('assets/img/logo-polije-press-long.png') }}" class="navbar-brand-img h-100"
                   alt="main_logo">
-              {{-- <span class="d-none d-lg-block">
-                POLIJE PRESS</span> --}}
           </a>
           <i class="bi bi-list toggle-sidebar-btn"></i>
       </div><!-- End Logo -->
@@ -36,10 +32,35 @@
                       </li>
 
                       <li>
-                          <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile') }}">
-                              <i class="bi bi-person"></i>
-                              <span>My Profile</span>
-                          </a>
+                          @if (Auth::user()->id_role == 1)
+                              <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile') }}">
+                                  <i class="bi bi-person"></i>
+                                  <span>My Profile</span>
+                              </a>
+                          @elseif (Auth::user()->id_role == 2)
+                              <a class="dropdown-item d-flex align-items-center" href="{{ route('profile') }}">
+                                  <i class="bi bi-person"></i>
+                                  <span>My Profile</span>
+                              </a>
+                          @elseif (Auth::user()->id_role == 3)
+                              <a class="dropdown-item d-flex align-items-center"
+                                  href="{{ route('editor.naskah.profile') }}">
+                                  <i class="bi bi-person"></i>
+                                  <span>My Profile</span>
+                              </a>
+                          @elseif (Auth::user()->id_role == 4)
+                              <a class="dropdown-item d-flex align-items-center"
+                                  href="{{ route('editor.akuisisi.profile') }}">
+                                  <i class="bi bi-person"></i>
+                                  <span>My Profile</span>
+                              </a>
+                          @else
+                              <a class="dropdown-item d-flex align-items-center"
+                                  href="{{ route('pengelola.profile') }}">
+                                  <i class="bi bi-person"></i>
+                                  <span>My Profile</span>
+                              </a>
+                          @endif
                       </li>
                       <li>
                           <hr class="dropdown-divider">

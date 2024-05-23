@@ -71,17 +71,13 @@
                                     <div class="col-lg-9 col-md-8">{{ Auth::user()->username }}</div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Email</div>
-                                    <div class="col-lg-9 col-md-8">{{ Auth::user()->email }}</div>
-                                </div>
-
                             </div>
 
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                 <!-- Profile Edit Form -->
-                                <form action="{{ route('pengelola.profile.update', Auth::user()->id_users) }}" method="POST">
+                                <form action="{{ route('pengelola.profile.update', Auth::user()->id_users) }}"
+                                    method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="row mb-3">
@@ -100,14 +96,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="email"
-                                                value="{{ Auth::user()->email }}">
-                                        </div>
-                                    </div>
-
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-success">Simpan</button>
                                     </div>
@@ -117,7 +105,8 @@
 
                             <div class="tab-pane fade pt-3" id="profile-change-password">
                                 <!-- Change Password Form -->
-                                <form action="{{ route('pengelola.profile.update', Auth::user()->id_users) }}" method="POST">
+                                <form action="{{ route('pengelola.profile.update', Auth::user()->id_users) }}"
+                                    method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="row mb-3">
@@ -135,8 +124,7 @@
                                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
                                             Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newpassword" type="password" class="form-control"
-                                                id="newPassword">
+                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
                                         </div>
                                     </div>
 

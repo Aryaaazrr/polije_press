@@ -45,9 +45,11 @@ Route::middleware('auth')->group(function () {
 
         Route::get('admin/naskah', [NaskahController::class, 'index'])->name('admin.naskah');
         Route::get('admin/naskah/data', [NaskahController::class, 'data'])->name('admin.naskah.data');
+        Route::get('admin/naskah/dataTerbit', [NaskahController::class, 'dataTerbit'])->name('admin.naskah.data.terbit');
         Route::get('admin/naskah/datauser', [NaskahController::class, 'dataUser'])->name('admin.naskah.datauser');
         Route::get('admin/naskah/add', [NaskahController::class, 'create'])->name('admin.naskah.create');
         Route::post('admin/naskah/add', [NaskahController::class, 'store'])->name('admin.naskah.store');
+        Route::get('admin/naskah/view', [NaskahController::class, 'show'])->name('admin.naskah.show');
         Route::get('admin/naskah/edit/{id}', [NaskahController::class, 'edit'])->name('admin.naskah.edit');
         Route::put('admin/naskah/edit/{id}', [NaskahController::class, 'update'])->name('admin.naskah.update');
 
@@ -127,10 +129,12 @@ Route::middleware('auth')->group(function () {
         Route::get('pengelola/dashboard', [PengelolaController::class, 'dashboard'])->name('pengelola.dashboard');
 
         Route::get('pengelola/naskah', [NaskahPengelolaController::class, 'index'])->name('pengelola.naskah');
+        Route::get('pengelola/naskah/dataTerbit', [NaskahPengelolaController::class, 'dataTerbit'])->name('pengelola.naskah.data.terbit');
         Route::get('pengelola/naska/data', [NaskahPengelolaController::class, 'data'])->name('pengelola.naskah.data');
         Route::get('pengelola/naskah/datauser', [NaskahPengelolaController::class, 'dataUser'])->name('pengelola.naskah.datauser');
         Route::get('pengelola/naskah/add', [NaskahPengelolaController::class, 'create'])->name('pengelola.naskah.create');
         Route::post('pengelola/naskah/add', [NaskahPengelolaController::class, 'store'])->name('pengelola.naskah.store');
+        Route::get('pengelola/naskah/view', [NaskahPengelolaController::class, 'show'])->name('pengelola.naskah.show');
         Route::get('pengelola/naskah/edit/{id}', [NaskahPengelolaController::class, 'edit'])->name('pengelola.naskah.edit');
         Route::put('pengelola/naskah/edit/{id}', [NaskahPengelolaController::class, 'update'])->name('pengelola.naskah.update');
 
