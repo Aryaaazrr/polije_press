@@ -26,7 +26,7 @@ class NaskahPenulisController extends Controller
 
     public function data()
     {
-        $data = Buku::with(['users', 'history'])->get();
+        $data = Buku::where('id_users', Auth::id())->with(['users', 'history'])->get();
         $rowData = [];
 
         foreach ($data as $row) {
@@ -66,6 +66,12 @@ class NaskahPenulisController extends Controller
      */
     public function create()
     {
+        $cekData = User::where('id_users', Auth::id())->first();
+
+        if ($cekData->name == null) {
+            return redirect()->route('profile')->withErrors(['error' => 'Profil anda belum lengkap. Silahkan isi terlebih dahulu.']);
+        }
+
         $kategori = Kategori::all();
         $role = Role::all();
         $users = User::where('id_role', '==', '2')->with('role')->get();

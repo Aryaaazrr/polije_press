@@ -92,7 +92,6 @@ class SettingController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'username' => 'required',
-                'email' => 'required', 'email',
             ]);
 
             if ($validator->fails()) {
@@ -103,7 +102,6 @@ class SettingController extends Controller
 
             $users->name = $request->name;
             $users->username = $request->username;
-            $users->email = $request->email;
             $users->save();
 
             if (Auth::user()->id_role == '1') {
