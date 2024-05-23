@@ -16,7 +16,6 @@ use App\Http\Controllers\PenulisController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TugasEditorAkuisisiController;
 use App\Http\Controllers\TugasEditorNaskahController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 /*

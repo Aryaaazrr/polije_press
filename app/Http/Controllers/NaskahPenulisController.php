@@ -239,7 +239,7 @@ class NaskahPenulisController extends Controller
             'subjudul' => 'required',
             'abstrak' => 'required',
             'file' => 'required|mimes:doc,docx',
-            'kategori.*' => 'required', // Memastikan setiap kategori terpilih
+            'kategori.*' => 'required', 
         ]);
 
         if ($validator->fails()) {
@@ -262,10 +262,8 @@ class NaskahPenulisController extends Controller
         $buku->seri = $request->seri;
         $buku->save();
 
-        // Hapus terlebih dahulu detail kategori yang terkait dengan id_buku
         DetailKategoriBuku::where('id_buku', $id)->delete();
 
-        // Tambahkan kembali detail kategori yang dipilih
         foreach ($request->kategori as $kategori_id) {
             DetailKategoriBuku::create([
                 'id_buku' => $id,
@@ -273,7 +271,6 @@ class NaskahPenulisController extends Controller
             ]);
         }
 
-        // Tambahkan kembali history yang sesuai
         $history = History::create([
             'id_buku' => $id,
             'id_users' => Auth::id(),

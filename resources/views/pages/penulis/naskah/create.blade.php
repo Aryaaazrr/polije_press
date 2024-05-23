@@ -115,7 +115,9 @@
                                         <tr>
                                             <td>{{ Auth::user()->name }}</td>
                                             <td>Penulis</td>
-                                            <td><button type="button" class="btn btn-secondary">Anda</button></td>
+                                            <td>
+                                                <button type="button" class="btn btn-secondary">Anda</button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -212,24 +214,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="form-floating mb-4">
-                                <legend class="col-form-label pt-0 fw-bold m-0">Kirim Sebagai <span
-                                        class="text-danger">*</span></legend>
-                                <p>Kirimkan dalam salah satu peran berikut jika Anda ingin dapat mengedit dan
-                                    mempublikasikan kiriman ini sendiri: Manajer pers, Editor pers, Editor produksi
-                                </p>
-                                <div class="col-sm-10">
-                                    @foreach ($role as $role)
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="peran_pengajuan"
-                                                id="sebagai_{{ $role->id_role }}" value="{{ $role->id_role }}">
-                                            <label class="form-check-label" for="sebagai_{{ $role->id_role }}">
-                                                {{ $role->nama_role }}
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div> --}}
                             <div class="form-floating mb-3">
                                 <legend class="col-form-label pt-0 fw-bold m-0">Kebijakan & Privasi <span
                                         class="text-danger">*</span></legend>
@@ -301,10 +285,8 @@
                             var exists = false;
                             $('#myTable tbody tr').each(function() {
                                 var existingName = $(this).find('td:eq(0)').text();
-                                var existingEmail = $(this).find('td:eq(1)').text();
-                                var existingRole = $(this).find('td:eq(2)').text();
-                                if (existingName === rowData[0] && existingEmail === rowData[1] &&
-                                    existingRole === rowData[2]) {
+                                var existingRole = $(this).find('td:eq(1)').text();
+                                if (existingName === rowData[0] && existingRole === rowData[1]) {
                                     exists = true;
                                     Swal.fire({
                                         icon: "error",
@@ -319,8 +301,7 @@
                                 selectedData.push({
                                     id_users: $(this).data('id'),
                                     name: rowData[0],
-                                    email: rowData[1],
-                                    role: rowData[2]
+                                    role: rowData[1]
                                 });
                             }
 
@@ -328,8 +309,7 @@
                         });
 
                         selectedData.forEach(function(data) {
-                            $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.email +
-                                '</td><td>' + data.role +
+                            $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.role +
                                 '</td><td><button type="button" class="btn btn-danger btn-delete">Hapus</button></td></tr>'
                             );
                         });
@@ -362,7 +342,6 @@
                 $('#stepForm').submit(function(event) {
                     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
                     var syaratCheckboxes = document.querySelectorAll('input[name^="persyaratan"]');
-                    // var sebagai = document.querySelectorAll('input[type="radio"]');
                     var kebijakanPrivasi = document.querySelectorAll('input[name^="kebijakanPrivasi"]');
                     var isChecked = false;
                     var isSyaratChecked = true;
@@ -381,12 +360,6 @@
                         }
                     });
 
-                    // sebagai.forEach(function(checkbox) {
-                    //     if (checkbox.checked) {
-                    //         isSebagai = true;
-                    //     }
-                    // });
-
                     kebijakanPrivasi.forEach(function(checkbox) {
                         if (!checkbox.checked) {
                             iskebijakanPrivasi = false;
@@ -394,7 +367,7 @@
                     });
 
                     if (!isChecked) {
-                        event.preventDefault(); // Menghentikan pengiriman formulir
+                        event.preventDefault(); 
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
@@ -404,7 +377,7 @@
                     }
 
                     if (!isSyaratChecked) {
-                        event.preventDefault(); // Menghentikan pengiriman formulir
+                        event.preventDefault(); 
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
@@ -413,18 +386,8 @@
                         return;
                     }
 
-                    // if (!isSebagai) {
-                    //     event.preventDefault(); // Menghentikan pengiriman formulir
-                    //     Swal.fire({
-                    //         icon: "error",
-                    //         title: "Oops...",
-                    //         text: "Anda harus memilih salah satu untuk peran pengajuan!",
-                    //     });
-                    //     return;
-                    // }
-
                     if (!iskebijakanPrivasi) {
-                        event.preventDefault(); // Menghentikan pengiriman formulir
+                        event.preventDefault(); 
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
@@ -432,8 +395,6 @@
                         });
                         return;
                     }
-
-                    // Tambahkan validasi lainnya di sini jika diperlukan
                 });
             </script>
     </section>
