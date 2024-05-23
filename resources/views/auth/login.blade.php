@@ -4,7 +4,6 @@
 
 @section('content')
     <div class="page-header align-items-start min-vh-100">
-        {{-- <span class="mask bg-gradient-dark opacity-6"></span> --}}
         <div class="container my-auto">
             <div class="row">
                 <div class="col-lg-4 col-md-8 col-12 mx-auto">
@@ -18,8 +17,8 @@
                             <form action="" role="form" class="text-start" method="POST">
                                 @csrf
                                 <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <label class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username" required>
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
                                     <label class="form-label">Password</label>

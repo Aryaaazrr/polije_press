@@ -36,11 +36,6 @@
                                         value="{{ old('username') }}" required>
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        value="{{ old('email') }}" required>
-                                </div>
-                                <div class="input-group input-group-outline mb-3">
                                     <label class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" required>
                                 </div>
@@ -51,11 +46,6 @@
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn bg-gradient-info w-100 my-4 mb-2">Sign Up</button>
-                                </div>
-                                <div class="text-center">
-                                    {{-- <a href="{{ route('google-login') }}" class="btn bg-gradient-danger w-100 my-2 mb-2">
-                                        <i class="fab fa-google me-2"></i> Sign Up with Google
-                                    </a> --}}
                                 </div>
                             </form>
                             <p class="mt-2 text-sm text-center">

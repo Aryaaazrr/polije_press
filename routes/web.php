@@ -37,7 +37,7 @@ Route::middleware('only_sign_in')->group(function () {
     Route::post('register', [AuthController::class, 'registerProses']);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::group(['middleware' => 'admin'], function () {
