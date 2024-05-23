@@ -9,6 +9,7 @@ use App\Models\History;
 use App\Models\Kategori;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -48,42 +49,6 @@ class NaskahController extends Controller
 
         return DataTables::of($rowData)->toJson();
     }
-
-    // public function data()
-    // {
-    //     $data = Buku::with(['users', 'history'])->get();
-    //     $rowData = [];
-    //     foreach ($data as $row) {
-    //         $historyRows = '';
-    //         foreach ($row->history as $history) {
-    //             $user = $history->user; // Ambil informasi pengguna dari relasi
-    //             $username = $user ? $user->name : '-'; // Ambil nama pengguna jika ada, jika tidak, gunakan tanda strip -
-    //         }
-
-    //         // Tambahkan data baris buku beserta historinya ke dalam array data
-    //         $rowData[] = [
-    //             'username' => $username,
-    //         ];
-    //     }
-
-    //     return DataTables::of($data)
-    //         ->addColumn('DT_RowIndex', function ($row) {
-    //             return $row->id;
-    //         })
-    //         ->addColumn('penulis', function ($row) {
-    //             return $row->users->name ?? '-';
-    //         })
-    //         ->addColumn('judul', function ($row) {
-    //             return $row->judul ?? '-';
-    //         })
-    //         ->addColumn('subjudul', function ($row) {
-    //             return $row->subjudul ?? '-';
-    //         })
-    //         ->addColumn('status', function ($row) {
-    //             return $row->status ?? '-';
-    //         })
-    //         ->toJson();
-    // }
 
     public function dataUser()
     {
@@ -239,28 +204,95 @@ class NaskahController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $naskah = Buku::find($id);
+        $buku = Buku::find($id);
 
-        if (!$naskah) {
+        if (!$buku) {
             return back()->withErrors(['error' => 'Kesalahan sistem coba kembali.']);
         }
 
-        $validator = Validator::make($request->all(), [
-            'komentar' => 'required',
-        ]);
+        if ($request->status == 'Revisi') {
+            $validator = Validator::make($request->all(), [
+                'status' => 'required',
+                'keterangan' => 'required',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            if ($validator->fails()) {
+                return back()
+                    ->with('error', 'Naskah tidak ditemukan.');
+            }
+
+            $buku->status = $request->status;
+            $buku->save();
+
+            $history = History::create([
+                'id_buku' => $id,
+                'id_users' => Auth::id(),
+                'keterangan' => Auth::user()->name . " memberi keputusan bahwa naskah perlu revisi dengan catatan " . $request->keterangan . ".",
+            ]);
+        } elseif ($request->status == 'Ditolak') {
+            $validator = Validator::make($request->all(), [
+                'status' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return back()
+                    ->with('error', 'Naskah tidak ditemukan.');
+            }
+
+            $buku->status = $request->status;
+            $buku->save();
+
+            $history = History::create([
+                'id_buku' => $id,
+                'id_users' => Auth::id(),
+                'keterangan' => Auth::user()->name . " memberi keputusan bahwa naskah '" . $request->status . "'.",
+            ]);
+        } elseif ($request->status == 'Layak terbit') {
+            $validator = Validator::make($request->all(), [
+                'status' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return back()
+                    ->with('error', 'Naskah tidak ditemukan.');
+            }
+
+            $loa_path = null;
+            $file_path_loa = 'uploads/loa';
+
+            if ($request->file('file')) {
+                $loa = $request->file('file');
+                $loa_path = $loa->storePublicly($file_path_loa, 'public');
+            }
+
+            $buku->loa = $loa_path;
+            $buku->publish = Carbon::now();
+            $buku->save();
+            $history = History::create([
+                'id_buku' => $id,
+                'id_users' => Auth::id(),
+                'keterangan' => Auth::user()->name . " memberi keputusan bahwa naskah " . $request->status . ".",
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'status' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return back()
+                    ->with('error', 'Naskah tidak ditemukan.');
+            }
+
+            $buku->status = $request->status;
+            $buku->save();
+            $history = History::create([
+                'id_buku' => $id,
+                'id_users' => Auth::id(),
+                'keterangan' => Auth::user()->name . " memberi keputusan bahwa naskah " . $request->status . ".",
+            ]);
         }
 
-        $naskah->id_users = Auth::id();
-        $naskah->id_buku = $id;
-        $naskah->keterangan = Auth::user()->name . " Memberi komentar " . $request->komentar;
-        $naskah->save();
-
-        return back()->with(['success' => 'Berhasil memberi komentar.']);
+        return back()->with(['success' => 'Berhasil memberi keputusan.']);
     }
 
     /**

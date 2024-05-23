@@ -103,6 +103,14 @@
                      <span>Pengguna</span>
                  </a>
              </li>
+         @elseif (Auth::user()->id_role == 4)
+             <li class="nav-item">
+                 <a class="@if (request()->is('editor-akuisisi/editor')) nav-link @else nav-link collapsed @endif"
+                     href="{{ route('editor.akuisisi.editor') }}">
+                     <i class="bi bi-clipboard-check"></i>
+                     <span>Tugas Editor</span>
+                 </a>
+             </li>
          @elseif (Auth::user()->id_role == 5)
              <li class="nav-item">
                  <a class="@if (request()->is('pengelola/editor')) nav-link @else nav-link collapsed @endif"

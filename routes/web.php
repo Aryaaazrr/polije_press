@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EditorAkuisisiController;
 use App\Http\Controllers\EditorNaskahController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KelolaEditorAkuisisiController;
 use App\Http\Controllers\KelolaEditorController;
 use App\Http\Controllers\KelolaEditorPengelolaController;
 use App\Http\Controllers\NaskahController;
@@ -111,6 +112,12 @@ Route::middleware('auth')->group(function () {
         Route::post('editor-akuisisi/tugas/add', [TugasEditorAkuisisiController::class, 'store'])->name('editor.akuisisi.store');
         Route::get('editor-akuisisi/tugas/{id}', [TugasEditorAkuisisiController::class, 'edit'])->name('editor.akuisisi.edit');
         Route::put('editor-akuisisi/tugas/{id}', [TugasEditorAkuisisiController::class, 'update'])->name('editor.akuisisi.update');
+
+        Route::get('editor-akuisisi/editor', [KelolaEditorAkuisisiController::class, 'index'])->name('editor.akuisisi.editor');
+        Route::get('editor-akuisisi/editor/data/{id}', [KelolaEditorAkuisisiController::class, 'data'])->name('editor.akuisisi.editor.data');
+        Route::get('editor-akuisisi/editor/dataeditor', [KelolaEditorAkuisisiController::class, 'dataEditor'])->name('editor.akuisisi.editor.dataeditor');
+        Route::get('editor-akuisisi/editor/{id}', [KelolaEditorAkuisisiController::class, 'edit'])->name('editor.akuisisi.editor.edit');
+        Route::put('editor-akuisisi/editor/{id}', [KelolaEditorAkuisisiController::class, 'update'])->name('editor.akuisisi.editor.update');
 
         Route::get('editor-akuisisi/profile', [SettingController::class, 'index'])->name('editor.akuisisi.profile');
         Route::put('editor-akuisisi/profile/{id}', [SettingController::class, 'update'])->name('editor.akuisisi.profile.update');

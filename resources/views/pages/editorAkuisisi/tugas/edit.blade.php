@@ -218,8 +218,6 @@
                                     <a href="{{ route('admin.editor') }}" class="btn btn-info submit-step">Tugaskan
                                         Editor</a>
                                 @else
-                                    {{-- <input type="submit" value="Penerbitan" name="status" class="btn btn-success"
-                                        placeholder="Layak Terbit"> --}}
                                     <input type="submit" value="Diterima" name="status" class="btn btn-success"
                                         placeholder="Diterima">
 

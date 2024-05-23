@@ -4,21 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use App\Models\History;
-use App\Models\TugasEditor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
-class KelolaEditorController extends Controller
+class KelolaEditorAkuisisiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('pages.admin.editor.index');
+        return view('pages.editorAkuisisi.editor.index');
     }
 
     public function data(string $id)
@@ -31,48 +30,28 @@ class KelolaEditorController extends Controller
             return response()->json(['error' => 'Editor tidak ditemukan'], 404);
         }
 
-        if ($cekroleeditor->role->nama_role === 'Editor Naskah') {
-            $query->where('status', 'Diterima')->where('publish', null);
-            $data = $query->with(['users', 'history'])->get();
+        $query->where('status', 'Diterima')->where('publish', null);
+        $data = $query->with(['users', 'history'])->get();
 
-            $rowData = [];
-            foreach ($data as $row) {
-                $rowData[] = [
-                    'id_editor' => $cekroleeditor->id_users,
-                    'DT_RowIndex' => $row->id_buku,
-                    'penulis' => $row->users->name ?? '-',
-                    'judul' => $row->judul ?? '-',
-                    'subjudul' => $row->subjudul ?? '-',
-                    'status' => $row->status ?? '-',
-                    'editorType' => $cekroleeditor->role->nama_role,
-                ];
-            }
-
-            return response()->json(['data' => $rowData]);
-        } else {
-            $query->where('status', 'Penyerahan');
-            $data = $query->with(['users', 'history'])->get();
-
-            $rowData = [];
-            foreach ($data as $row) {
-                $rowData[] = [
-                    'id_editor' => $cekroleeditor->id_users,
-                    'DT_RowIndex' => $row->id_buku,
-                    'penulis' => $row->users->name ?? '-',
-                    'judul' => $row->judul ?? '-',
-                    'subjudul' => $row->subjudul ?? '-',
-                    'status' => $row->status ?? '-',
-                    'editorType' => $cekroleeditor->role->nama_role,
-                ];
-            }
-
-            return response()->json(['data' => $rowData]);
+        $rowData = [];
+        foreach ($data as $row) {
+            $rowData[] = [
+                'id_editor' => $cekroleeditor->id_users,
+                'DT_RowIndex' => $row->id_buku,
+                'penulis' => $row->users->name ?? '-',
+                'judul' => $row->judul ?? '-',
+                'subjudul' => $row->subjudul ?? '-',
+                'status' => $row->status ?? '-',
+                'editorType' => $cekroleeditor->role->nama_role,
+            ];
         }
+
+        return response()->json(['data' => $rowData]);
     }
 
     public function dataEditor()
     {
-        $users = User::whereNotIn('id_role', [1, 2, 5])->with('role')->get();
+        $users = User::where('id_role', 3)->with('role')->get();
 
         return DataTables::of($users)
             ->addColumn('DT_RowIndex', function ($user) {
@@ -94,6 +73,7 @@ class KelolaEditorController extends Controller
      */
     public function store(Request $request)
     {
+        //
     }
 
     /**
@@ -109,7 +89,7 @@ class KelolaEditorController extends Controller
      */
     public function edit(string $id)
     {
-        return view('pages.admin.editor.edit', ['id' => $id]);
+        return view('pages.editorAkuisisi.editor.edit', ['id' => $id]);
     }
 
     /**
@@ -120,7 +100,7 @@ class KelolaEditorController extends Controller
         $editor = User::find($id);
 
         if (!$editor) {
-            return redirect()->route('admin.editor')->with('error', 'Kesalahan coba kembali.');
+            return redirect()->route('pengelola.editor')->with('error', 'Kesalahan coba kembali.');
         }
 
         $validator = Validator::make($request->all(), [
@@ -151,7 +131,7 @@ class KelolaEditorController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.editor')->with('success', 'Tugas berhasil dikirim.');
+        return redirect()->route('editor.akuisisi.editor')->with('success', 'Tugas berhasil dikirim.');
     }
 
     /**

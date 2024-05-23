@@ -193,7 +193,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">Name</th>
-                                                <th class="text-center">Email</th>
                                                 <th class="text-center">Role</th>
                                                 {{-- <th class="text-center">Aksi</th> --}}
                                             </tr>
@@ -202,7 +201,6 @@
                                             @foreach ($detailContributorBuku as $detailContributorBuku)
                                                 <tr>
                                                     <td class="text-center">{{ $detailContributorBuku->name }}</td>
-                                                    <td class="text-center">{{ $detailContributorBuku->email }}</td>
                                                     <td class="text-center">{{ $detailContributorBuku->role->nama_role }}
                                                     </td>
                                                     {{-- <td class="text-center"><button type="button"
@@ -334,10 +332,8 @@
                                 var exists = false;
                                 $('#myTable tbody tr').each(function() {
                                     var existingName = $(this).find('td:eq(0)').text();
-                                    var existingEmail = $(this).find('td:eq(1)').text();
-                                    var existingRole = $(this).find('td:eq(2)').text();
-                                    if (existingName === rowData[0] && existingEmail === rowData[1] &&
-                                        existingRole === rowData[2]) {
+                                    var existingRole = $(this).find('td:eq(1)').text();
+                                    if (existingName === rowData[0] && existingRole === rowData[1]) {
                                         exists = true;
                                         Swal.fire({
                                             icon: "error",
@@ -352,8 +348,7 @@
                                     selectedData.push({
                                         id_users: $(this).data('id'),
                                         name: rowData[0],
-                                        email: rowData[1],
-                                        role: rowData[2]
+                                        role: rowData[1]
                                     });
                                 }
 
@@ -361,8 +356,7 @@
                             });
 
                             selectedData.forEach(function(data) {
-                                $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.email +
-                                    '</td><td>' + data.role +
+                                $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.role +
                                     '</td><td><button type="button" class="btn btn-danger btn-delete">Hapus</button></td></tr>'
                                 );
                             });

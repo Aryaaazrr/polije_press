@@ -7,7 +7,7 @@
         <h1>Tugas Editor</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="">Admin</a></li>
+                <li class="breadcrumb-item"><a href="">Editor Akuisisi</a></li>
                 <li class="breadcrumb-item active">Tugas Editor</li>
             </ol>
         </nav>
@@ -75,7 +75,7 @@
                     processing: true,
                     responsive: true,
                     serverSide: true,
-                    ajax: '{{ route('admin.editor.dataeditor') }}',
+                    ajax: '{{ route('editor.akuisisi.editor.dataeditor') }}',
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex'
@@ -93,7 +93,7 @@
                             render: function(data) {
                                 return '<div class="row justify-content-center">' +
                                     '<div class="col-auto">' +
-                                    '<a href="{{ route('admin.editor.edit', '') }}/' + data
+                                    '<a href="{{ route('editor.akuisisi.editor.edit', '') }}/' + data
                                     .id_users +
                                     '" class="btn btn-info m-1" ' +
                                     '"><i class="bi bi-calendar-check"></i> Tugaskan Editor </a>' +

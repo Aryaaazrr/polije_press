@@ -157,7 +157,6 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th class="text-center">Name</th>
-                                                                    <th class="text-center">Email</th>
                                                                     <th class="text-center">Role</th>
                                                                     <th class="text-center">Aksi</th>
                                                                 </tr>
@@ -182,7 +181,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">Name</th>
-                                                <th class="text-center">Email</th>
                                                 <th class="text-center">Role</th>
                                             </tr>
                                         </thead>
@@ -190,7 +188,6 @@
                                             @foreach ($detailContributorBuku as $detailContributorBuku)
                                                 <tr>
                                                     <td class="text-center">{{ $detailContributorBuku->name }}</td>
-                                                    <td class="text-center">{{ $detailContributorBuku->email }}</td>
                                                     <td class="text-center">{{ $detailContributorBuku->role->nama_role }}
                                                     </td>
                                                 </tr>
@@ -203,10 +200,87 @@
                                 @if ($buku->status == 'Penyerahan')
                                     <a href="{{ route('admin.editor') }}" class="btn btn-info submit-step">Tugaskan
                                         Editor</a>
+                                @elseif ($buku->status == 'Sedang Direview')
+                                    <input type="submit" value="Diterima" name="status" class="btn btn-success"
+                                        placeholder="Diterima">
+
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#revisi">Revisi</button>
+                                    <input type="submit" value="Ditolak" name="status" class="btn btn-danger"
+                                        placeholder="Ditolak">
+                                    <div class="modal fade" id="revisi" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Catatan Revisi</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-floating mb-3">
+                                                        <textarea class="form-control" name="keterangan" placeholder="Leave a comment here" id="floatingTextarea"
+                                                            style="height: 100px;"></textarea>
+                                                        <label for="floatingTextarea">Catatan</label>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <input type="submit" value="Revisi" name="status"
+                                                        class="btn btn-primary" placeholder="Kirim Revisi">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @elseif ($buku->status == 'Revisi')
+                                    <input type="submit" value="Diterima" name="status" class="btn btn-success"
+                                        placeholder="Diterima">
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#revisi">Revisi</button>
+                                    <div class="modal fade" id="revisi" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Catatan Revisi</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-floating mb-3">
+                                                        <textarea class="form-control" name="keterangan" placeholder="Leave a comment here" id="floatingTextarea"
+                                                            style="height: 100px;"></textarea>
+                                                        <label for="floatingTextarea">Catatan</label>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <input type="submit" value="Revisi" name="status"
+                                                        class="btn btn-primary" placeholder="Kirim Revisi">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @elseif ($buku->status == 'Ditolak')
+                                    <div class="text-center">
+                                        <a href="{{ route('admin.naskah') }}"
+                                            class="btn btn-primary submit-step">Kembali</a>
+                                    </div>
+                                @elseif ($buku->publish == null)
+                                    <div class="col-md-12">
+                                        <legend class="col-form-label pt-0 fw-bold">Upload Surat Penerbitan <span
+                                                class="text-danger">*</span>
+                                        </legend>
+                                        <input class="form-control" type="file" id="formFile" name="file"
+                                            accept=".pdf,.doc,.docx" required>
+                                    </div>
+                                    <input type="submit" value="Layak terbit" name="status"
+                                        class="btn btn-success mt-4 text-right" placeholder="Layak Terbit">
                                 @else
-                                    <button type="submit" class="btn btn-success submit-step">Diterima</button>
-                                    <button type="submit" class="btn btn-warning submit-step">Revisi</button>
-                                    <button type="submit" class="btn btn-danger submit-step">Tolak</button>
+                                    <div class="text-center">
+                                        <a href="{{ route('admin.naskah') }}"
+                                            class="btn btn-primary submit-step">Kembali</a>
+                                    </div>
                                 @endif
                             </div>
                         </form>
@@ -276,10 +350,6 @@
                                 name: 'name'
                             },
                             {
-                                data: 'email',
-                                name: 'email'
-                            },
-                            {
                                 data: 'role.nama_role',
                                 name: 'role.nama_role'
                             },
@@ -308,10 +378,8 @@
                             var exists = false;
                             $('#myTable tbody tr').each(function() {
                                 var existingName = $(this).find('td:eq(0)').text();
-                                var existingEmail = $(this).find('td:eq(1)').text();
-                                var existingRole = $(this).find('td:eq(2)').text();
-                                if (existingName === rowData[0] && existingEmail === rowData[1] &&
-                                    existingRole === rowData[2]) {
+                                var existingRole = $(this).find('td:eq(1)').text();
+                                if (existingName === rowData[0] && existingRole === rowData[1]) {
                                     exists = true;
                                     Swal.fire({
                                         icon: "error",
@@ -326,8 +394,7 @@
                                 selectedData.push({
                                     id_users: $(this).data('id'),
                                     name: rowData[0],
-                                    email: rowData[1],
-                                    role: rowData[2]
+                                    role: rowData[1]
                                 });
                             }
 
@@ -335,8 +402,7 @@
                         });
 
                         selectedData.forEach(function(data) {
-                            $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.email +
-                                '</td><td>' + data.role +
+                            $('#myTable').append('<tr><td>' + data.name + '</td><td>' + data.role +
                                 '</td><td><button type="button" class="btn btn-danger btn-delete">Hapus</button></td></tr>'
                             );
                         });
